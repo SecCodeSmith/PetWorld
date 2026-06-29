@@ -6,6 +6,21 @@ zgodnie z architekturą **Onion / Clean** ze ścisłą regułą zależności „
 
 ---
 
+## Zrzuty ekranu
+
+<table>
+  <tr>
+    <td width="50%"><b>Sklep</b><br/><img src="Img/sklep.png" alt="Sklep" /></td>
+    <td width="50%"><b>Historia rozmów</b><br/><img src="Img/historia.png" alt="Historia rozmów" /></td>
+  </tr>
+  <tr>
+    <td width="50%"><b>Koszyk (stan pusty)</b><br/><img src="Img/koszyk.png" alt="Koszyk" /></td>
+    <td width="50%"><b>Logowanie</b><br/><img src="Img/logowanie.png" alt="Logowanie" /></td>
+  </tr>
+</table>
+
+---
+
 ## Wymagania wstępne
 
 - **Docker** i **Docker Compose** — to wszystko, czego potrzeba, aby uruchomić całość.
