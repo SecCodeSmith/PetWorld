@@ -2,7 +2,7 @@
 
 # ---------- Tailwind CSS stage ----------
 # Compiles the purged, minified wwwroot/app.css (no runtime CDN).
-FROM node:20-alpine AS css
+FROM node:26-alpine AS css
 WORKDIR /web
 COPY src/PetWorld.Web/package.json src/PetWorld.Web/package-lock.json ./
 RUN npm ci
