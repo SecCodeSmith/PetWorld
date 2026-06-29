@@ -7,6 +7,7 @@ out/
 artifacts/
 
 # ---- User / IDE ----
+.idea
 .vs/
 .vscode/
 *.user

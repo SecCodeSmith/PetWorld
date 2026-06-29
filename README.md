@@ -14,12 +14,12 @@ zgodnie z architekturą **Onion / Clean** ze ścisłą regułą zależności „
     <td width="50%"><b>Czat — odpowiedź + liczba iteracji</b><br/><img src="Img/chat.png" alt="Czat — odpowiedź" /></td>
   </tr>
   <tr>
-    <td width="50%"><b>Sklep</b><br/><img src="Img/sklep.png" alt="Sklep" /></td>
-    <td width="50%"><b>Historia rozmów</b><br/><img src="Img/historia.png" alt="Historia rozmów" /></td>
+    <td width="50%"><b>Sklep</b><br/><img src="Img/shop.png" alt="Sklep" /></td>
+    <td width="50%"><b>Historia rozmów</b><br/><img src="Img/history.png" alt="Historia rozmów" /></td>
   </tr>
   <tr>
-    <td width="50%"><b>Koszyk (stan pusty)</b><br/><img src="Img/koszyk.png" alt="Koszyk" /></td>
-    <td width="50%"><b>Logowanie</b><br/><img src="Img/logowanie.png" alt="Logowanie" /></td>
+    <td width="50%"><b>Koszyk (stan pusty)</b><br/><img src="Img/cart.png" alt="Koszyk" /></td>
+    <td width="50%"><b>Logowanie</b><br/><img src="Img/login.png" alt="Logowanie" /></td>
   </tr>
 </table>
 
@@ -160,9 +160,10 @@ Każda interakcja jest zapisywana w tabeli `chat_interactions` i widoczna na `/h
 > Pętla potrafi trwać **30–60 s**. Czat obsługuje to asynchronicznie i pokazuje stan ładowania
 > (spinner na przycisku + „skeleton"), dzięki czemu obwód SignalR nie wygląda na zawieszony.
 
-Jeden **wspólny katalog** (`Infrastructure/Persistence/Catalogue.cs`) jest źródłem prawdy zarówno
-dla zasiewu tabeli `products`, jak i dla instrukcji Writera — ceny nie mogą się więc rozjechać
-między sklepem a AI.
+**Baza danych jest jedynym źródłem prawdy.** Katalog 10 produktów jest definiowany i zasiewany
+przy starcie w `Infrastructure/Persistence/DbInitializer.cs`, a doradca AI czyta te same produkty
+z tabeli `products` (przez `IProductRepository`) przy budowaniu instrukcji Writera/Critica — ceny
+nie mogą się więc rozjechać między sklepem a AI.
 
 ---
 

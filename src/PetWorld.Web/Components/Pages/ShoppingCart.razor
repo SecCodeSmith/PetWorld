@@ -40,7 +40,7 @@
                                 <div>
                                     <span class="text-label-md text-primary uppercase">@line.Category</span>
                                     <h3 class="text-body-lg font-semibold">@line.Name</h3>
-                                    <p class="muted text-sm">Cena jedn.: @PriceFormatter.ToZl(line.UnitPriceGr)</p>
+                                    <p class="muted text-sm">Cena jedn.: @PriceFormatter.ToZl(line.UnitPrice)</p>
                                 </div>
                                 <button class="icon-btn hover:text-error" aria-label="Usuń przedmiot" @onclick="() => Remove(line.ProductId)">
                                     <Icon Name="trash" Size="20" />
@@ -49,7 +49,7 @@
                             <div class="flex items-center justify-between gap-md mt-1">
                                 <QuantityStepper Value="line.Quantity"
                                                  ValueChanged="q => SetQuantity(line.ProductId, q)" />
-                                <span class="text-xl font-bold text-primary whitespace-nowrap">@PriceFormatter.ToZl(line.LineTotalGr)</span>
+                                <span class="text-xl font-bold text-primary whitespace-nowrap">@PriceFormatter.ToZl(line.LineTotal)</span>
                             </div>
                         </div>
                     </article>
@@ -60,15 +60,15 @@
                 <h2 class="text-headline-md border-b border-surface-highest pb-sm mb-md">Podsumowanie</h2>
                 <div class="flex justify-between text-on-surface-variant mb-sm">
                     <span>Suma częściowa</span>
-                    <span>@PriceFormatter.ToZl(_cart.SubtotalGr)</span>
+                    <span>@PriceFormatter.ToZl(_cart.Subtotal)</span>
                 </div>
                 <div class="flex justify-between text-on-surface-variant mb-sm">
                     <span>Dostawa (Kurier)</span>
-                    <span>@PriceFormatter.ToZl(_cart.ShippingGr)</span>
+                    <span>@PriceFormatter.ToZl(_cart.Shipping)</span>
                 </div>
                 <div class="flex justify-between items-center border-t border-surface-highest pt-sm mt-sm mb-md">
                     <span class="text-body-lg font-semibold">Razem</span>
-                    <span class="text-[28px] font-bold text-primary">@PriceFormatter.ToZl(_cart.TotalGr)</span>
+                    <span class="text-[28px] font-bold text-primary">@PriceFormatter.ToZl(_cart.Total)</span>
                 </div>
                 <button class="btn btn-primary btn-block btn-lg" @onclick="Checkout">
                     Przejdź do kasy <Icon Name="arrow-right" Size="18" />

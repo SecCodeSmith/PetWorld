@@ -11,7 +11,7 @@ namespace PetWorld.Infrastructure.Cart;
 public sealed class CartService(IProductRepository products) : ICartService
 {
     /// <summary>Flat delivery fee applied while the cart has at least one item (15 zł).</summary>
-    private const int ShippingGr = 1500;
+    private const decimal ShippingFee = 15.00m;
 
     private readonly Dictionary<int, CartLine> _lines = new();
 
@@ -42,7 +42,7 @@ public sealed class CartService(IProductRepository products) : ICartService
             ProductId = product.Id,
             Name = product.Name,
             Category = product.Category,
-            UnitPriceGr = product.PriceGr,
+            UnitPrice = product.Price,
             Quantity = quantity,
         };
         Changed?.Invoke();
@@ -89,12 +89,12 @@ public sealed class CartService(IProductRepository products) : ICartService
     public CartView GetCart()
     {
         var lines = _lines.Values.OrderBy(l => l.Name).ToList();
-        var subtotal = lines.Sum(l => l.LineTotalGr);
+        var subtotal = lines.Sum(l => l.LineTotal);
         return new CartView
         {
             Lines = lines,
-            SubtotalGr = subtotal,
-            ShippingGr = lines.Count == 0 ? 0 : ShippingGr,
+            Subtotal = subtotal,
+            Shipping = lines.Count == 0 ? 0m : ShippingFee,
             ItemCount = lines.Sum(l => l.Quantity),
         };
     }

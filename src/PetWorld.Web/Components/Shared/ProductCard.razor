@@ -10,7 +10,7 @@
         <span class="text-[13px] text-on-surface-variant">@Product.Category</span>
     </div>
     <div class="flex items-center justify-between mt-auto pt-base">
-        <span class="text-xl font-bold text-primary">@PriceFormatter.ToZl(Product.PriceGr)</span>
+        <span class="text-xl font-bold text-primary">@PriceFormatter.ToZl(Product.Price)</span>
         <button class="btn btn-primary" @onclick="AddAsync">@AddLabel</button>
     </div>
 </div>

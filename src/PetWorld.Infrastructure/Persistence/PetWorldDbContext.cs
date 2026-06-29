@@ -30,7 +30,8 @@ public class PetWorldDbContext : IdentityDbContext<ApplicationUser>
             entity.HasKey(p => p.Id);
             entity.Property(p => p.Name).HasMaxLength(200).IsRequired();
             entity.Property(p => p.Category).HasMaxLength(100).IsRequired();
-            entity.Property(p => p.PriceGr).IsRequired();
+            entity.Property(p => p.Price).HasPrecision(10, 2).IsRequired(); // DECIMAL(10,2), exact for money
+
             entity.Property(p => p.Description).IsRequired(); // maps to longtext
         });
 

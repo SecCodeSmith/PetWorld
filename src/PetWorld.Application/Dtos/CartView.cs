@@ -9,11 +9,11 @@ public sealed class CartLine
 
     public string Category { get; init; } = string.Empty;
 
-    public int UnitPriceGr { get; init; }
+    public decimal UnitPrice { get; init; }
 
     public int Quantity { get; set; }
 
-    public int LineTotalGr => UnitPriceGr * Quantity;
+    public decimal LineTotal => UnitPrice * Quantity;
 }
 
 /// <summary>The whole cart shaped for display: lines plus computed totals.</summary>
@@ -21,11 +21,11 @@ public sealed class CartView
 {
     public IReadOnlyList<CartLine> Lines { get; init; } = [];
 
-    public int SubtotalGr { get; init; }
+    public decimal Subtotal { get; init; }
 
-    public int ShippingGr { get; init; }
+    public decimal Shipping { get; init; }
 
-    public int TotalGr => SubtotalGr + ShippingGr;
+    public decimal Total => Subtotal + Shipping;
 
     /// <summary>Total number of items (sum of quantities) — used for the nav badge.</summary>
     public int ItemCount { get; init; }

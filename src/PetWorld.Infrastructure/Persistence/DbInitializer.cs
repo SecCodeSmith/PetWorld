@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PetWorld.Domain.Entities;
 using PetWorld.Infrastructure.Identity;
 
 namespace PetWorld.Infrastructure.Persistence;
@@ -10,11 +11,40 @@ namespace PetWorld.Infrastructure.Persistence;
 /// <summary>
 /// Applies migrations and seeds the catalogue + demo user on startup. The migration
 /// step retries so the app does not crash-loop while MySQL is still warming up.
+///
+/// The 10 catalogue products are defined here so the database is the single source of
+/// truth: the shop reads them from the <c>products</c> table and the AI advisor reads
+/// them through <see cref="IProductRepository"/>, so prices can never drift between the
+/// two. Product names/descriptions are customer-facing copy, hence Polish.
 /// </summary>
 public static class DbInitializer
 {
     private const int MaxMigrationAttempts = 12;
     private static readonly TimeSpan RetryDelay = TimeSpan.FromSeconds(5);
+
+    private static readonly (string Name, string Category, decimal Price, string Description)[] SeedProducts =
+    [
+        ("Royal Canin Adult Dog 15kg", "Karma dla psów", 289.00m,
+            "Pełnoporcjowa karma sucha dla dorosłych psów ras średnich. Wspiera trawienie i utrzymanie prawidłowej masy ciała."),
+        ("Whiskas Adult Kurczak 7kg", "Karma dla kotów", 129.00m,
+            "Sucha karma dla dorosłych kotów z kurczakiem. Kompletne, zbilansowane pożywienie na każdy dzień."),
+        ("Tetra AquaSafe 500ml", "Akwarystyka", 45.00m,
+            "Środek do uzdatniania wody akwariowej. Usuwa chlor i metale ciężkie oraz zabezpiecza śluzówkę ryb."),
+        ("Trixie Drapak XL 150cm", "Akcesoria dla kotów", 399.00m,
+            "Wysoki drapak z wieloma poziomami i domkiem. Idealny dla aktywnych kotów lubiących wspinaczkę."),
+        ("Kong Classic Large", "Zabawki dla psów", 69.00m,
+            "Wytrzymała gumowa zabawka dla psów. Można wypełnić ją smakołykami — świetna na nudę i stres."),
+        ("Ferplast Klatka dla chomika", "Gryzonie", 189.00m,
+            "Przestronna klatka dla chomika wraz z wyposażeniem. Łatwa w czyszczeniu i bezpieczna konstrukcja."),
+        ("Flexi Smycz automatyczna 8m", "Akcesoria dla psów", 119.00m,
+            "Automatyczna smycz taśmowa o długości 8 m. Wygodny uchwyt i niezawodny system hamowania."),
+        ("Brit Premium Kitten 8kg", "Karma dla kotów", 159.00m,
+            "Karma sucha dla kociąt wspierająca prawidłowy rozwój. Wysoka zawartość białka i tauryny."),
+        ("JBL ProFlora CO2 Set", "Akwarystyka", 549.00m,
+            "Kompletny zestaw nawożenia CO2 do akwarium roślinnego. Zapewnia bujny i zdrowy wzrost roślin."),
+        ("Vitapol Siano dla królików 1kg", "Gryzonie", 25.00m,
+            "Naturalne siano łąkowe dla królików i gryzoni. Wspiera prawidłowe trawienie i ścieranie zębów."),
+    ];
 
     public static async Task InitializeAsync(IServiceProvider rootProvider, CancellationToken ct = default)
     {
@@ -61,9 +91,15 @@ public static class DbInitializer
             return;
         }
 
-        db.Products.AddRange(Catalogue.CreateSeedProducts());
+        db.Products.AddRange(SeedProducts.Select(p => new Product
+        {
+            Name = p.Name,
+            Category = p.Category,
+            Price = p.Price,
+            Description = p.Description,
+        }));
         await db.SaveChangesAsync(ct);
-        logger.LogInformation("Seeded {Count} catalogue products.", Catalogue.Items.Count);
+        logger.LogInformation("Seeded {Count} catalogue products.", SeedProducts.Length);
     }
 
     private static async Task SeedDemoUserAsync(IServiceProvider sp, ILogger logger, CancellationToken ct)

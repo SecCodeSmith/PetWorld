@@ -109,8 +109,8 @@
 
             query = _sort switch
             {
-                "price-asc" => query.OrderBy(p => p.PriceGr),
-                "price-desc" => query.OrderByDescending(p => p.PriceGr),
+                "price-asc" => query.OrderBy(p => p.Price),
+                "price-desc" => query.OrderByDescending(p => p.Price),
                 "name" => query.OrderBy(p => p.Name),
                 _ => query.OrderBy(p => p.Id),
             };

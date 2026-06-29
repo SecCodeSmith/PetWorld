@@ -1,7 +1,7 @@
 @page "/historia"
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components.QuickGrid
-@inject IChatHistoryRepository History
+@inject IChatHistoryRepository HistoryRepository
 
 <PageTitle>Historia rozmów — PetWorld</PageTitle>
 
@@ -48,6 +48,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _items = await History.ListNewestFirstAsync();
+        _items = await HistoryRepository.ListNewestFirstAsync();
     }
 }
