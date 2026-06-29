@@ -1,28 +1,92 @@
 @page "/"
 @rendermode InteractiveServer
 @inject IProductAdvisorService Advisor
+@inject IJSRuntime JS
 @inject ILogger<Czat> Logger
 
 <PageTitle>Czat — PetWorld</PageTitle>
 
 <div class="page page-narrow flex flex-col gap-md">
-    <div class="text-center mb-sm">
-        <h1 class="text-display-lg">Zapytaj naszego doradcę</h1>
-        <p class="text-body-lg muted">Opisz swojego pupila, a my dobierzemy produkty.</p>
-    </div>
+    @if (_exchanges.Count == 0)
+    {
+        <div class="text-center mb-sm">
+            <h1 class="text-display-lg">Zapytaj naszego doradcę</h1>
+            <p class="text-body-lg muted">Opisz swojego pupila, a my dobierzemy produkty.</p>
+        </div>
+    }
+    else
+    {
+        <h1 class="text-headline-lg">Doradca PetWorld</h1>
+    }
 
-    <div class="card p-md">
+    @foreach (var exchange in _exchanges)
+    {
+        <div class="bubble-user">@exchange.Question</div>
+
+        @if (exchange.Loading)
+        {
+            <div class="card p-md flex flex-col gap-md">
+                <div class="flex items-center gap-sm border-b border-surface-container pb-sm">
+                    <span class="advisor-avatar"><Icon Name="robot" Size="22" /></span>
+                    <span class="text-headline-md">Doradca PetWorld</span>
+                </div>
+                <div>
+                    <div class="skeleton skeleton-line" style="width:35%"></div>
+                    <div class="skeleton skeleton-line"></div>
+                    <div class="skeleton skeleton-line" style="width:95%"></div>
+                    <div class="skeleton skeleton-line" style="width:60%"></div>
+                </div>
+                <p class="muted text-center text-[13px]">
+                    Doradca analizuje pytanie i sprawdza rekomendacje — to może potrwać kilkadziesiąt sekund.
+                </p>
+            </div>
+        }
+        else if (exchange.Error is not null)
+        {
+            <div class="card p-md"><div class="form-error-box">@exchange.Error</div></div>
+        }
+        else if (exchange.Result is not null)
+        {
+            <div class="card p-md flex flex-col gap-md">
+                <div class="flex items-center justify-between gap-sm border-b border-surface-container pb-sm">
+                    <div class="flex items-center gap-sm">
+                        <span class="advisor-avatar"><Icon Name="robot" Size="22" /></span>
+                        <span class="text-headline-md">Doradca PetWorld</span>
+                    </div>
+                    <IterationBadge Count="exchange.Result.Iterations" />
+                </div>
+                <div class="text-on-surface-variant font-medium space-y-3">
+                    @foreach (var paragraph in Paragraphs(exchange.Result.Answer))
+                    {
+                        <p>@paragraph</p>
+                    }
+                </div>
+                @if (exchange.Result.RecommendedProducts.Count > 0)
+                {
+                    <p class="font-semibold">Polecane produkty:</p>
+                    <div class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-sm">
+                        @foreach (var product in exchange.Result.RecommendedProducts)
+                        {
+                            <ProductCard Product="product" />
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+
+    <div class="card p-md sticky bottom-md">
         <div class="field">
-            <label for="question">Twoje pytanie</label>
-            <textarea id="question" class="input"
-                      placeholder="Np. Mam młodego kota, jaką karmę polecacie?"
+            <label for="question">@(_exchanges.Count == 0 ? "Twoje pytanie" : "Zadaj kolejne pytanie")</label>
+            <textarea id="question" class="input" rows="2"
+                      placeholder="@(_exchanges.Count == 0 ? "Np. Mam młodego kota, jaką karmę polecacie?" : "Zadaj kolejne pytanie…")"
                       @bind="_question" @bind:event="oninput"
-                      disabled="@(_phase == Phase.Loading)"></textarea>
+                      disabled="@_busy"></textarea>
         </div>
         <div class="flex justify-end mt-sm">
             <button class="btn btn-primary btn-lg" @onclick="SubmitAsync"
-                    disabled="@(_phase == Phase.Loading || string.IsNullOrWhiteSpace(_question))">
-                @if (_phase == Phase.Loading)
+                    disabled="@(_busy || string.IsNullOrWhiteSpace(_question))">
+                @if (_busy)
                 {
                     <span class="spinner"></span>
                     <span>Analizuję…</span>
@@ -35,111 +99,67 @@
             </button>
         </div>
     </div>
-
-    @if (_submittedQuestion is not null)
-    {
-        <div class="bubble-user">@_submittedQuestion</div>
-    }
-
-    @if (_phase == Phase.Loading)
-    {
-        <div class="card p-md flex flex-col gap-md">
-            <div class="flex items-center justify-between gap-sm border-b border-surface-container pb-sm">
-                <div class="flex items-center gap-sm">
-                    <span class="advisor-avatar"><Icon Name="robot" Size="22" /></span>
-                    <span class="text-headline-md">Doradca PetWorld</span>
-                </div>
-            </div>
-            <div>
-                <div class="skeleton skeleton-line" style="width:35%"></div>
-                <div class="skeleton skeleton-line"></div>
-                <div class="skeleton skeleton-line" style="width:95%"></div>
-                <div class="skeleton skeleton-line" style="width:88%"></div>
-                <div class="skeleton skeleton-line" style="width:60%"></div>
-            </div>
-            <p class="muted text-center text-[13px]">
-                Doradca analizuje pytanie i sprawdza rekomendacje — to może potrwać kilkadziesiąt sekund.
-            </p>
-        </div>
-    }
-    else if (_error is not null)
-    {
-        <div class="card p-md">
-            <div class="form-error-box">@_error</div>
-        </div>
-    }
-    else if (_result is not null)
-    {
-        <div class="card p-md flex flex-col gap-md">
-            <div class="flex items-center justify-between gap-sm border-b border-surface-container pb-sm">
-                <div class="flex items-center gap-sm">
-                    <span class="advisor-avatar"><Icon Name="robot" Size="22" /></span>
-                    <span class="text-headline-md">Doradca PetWorld</span>
-                </div>
-                <IterationBadge Count="_result.Iterations" />
-            </div>
-            <div class="text-on-surface-variant font-medium space-y-3">
-                @foreach (var paragraph in Paragraphs(_result.Answer))
-                {
-                    <p>@paragraph</p>
-                }
-            </div>
-            @if (_result.RecommendedProducts.Count > 0)
-            {
-                <p class="font-semibold">Polecane produkty:</p>
-                <div class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-sm">
-                    @foreach (var product in _result.RecommendedProducts)
-                    {
-                        <ProductCard Product="product" />
-                    }
-                </div>
-            }
-        </div>
-    }
 </div>
 
 @code {
-    private enum Phase { Empty, Loading, Answered }
+    private sealed class Exchange
+    {
+        public required string Question { get; init; }
+        public AdvisorResult? Result { get; set; }
+        public string? Error { get; set; }
+        public bool Loading { get; set; } = true;
+    }
 
-    private Phase _phase = Phase.Empty;
+    private readonly List<Exchange> _exchanges = [];
     private string? _question;
-    private string? _submittedQuestion;
-    private AdvisorResult? _result;
-    private string? _error;
+    private bool _busy;
+    private bool _scrollPending;
 
     private async Task SubmitAsync()
     {
         var question = _question?.Trim();
-        if (string.IsNullOrWhiteSpace(question) || _phase == Phase.Loading)
+        if (string.IsNullOrWhiteSpace(question) || _busy)
         {
             return;
         }
 
-        _submittedQuestion = question;
-        _result = null;
-        _error = null;
-        _phase = Phase.Loading;
+        var exchange = new Exchange { Question = question };
+        _exchanges.Add(exchange);
+        _question = string.Empty;
+        _busy = true;
+        _scrollPending = true;
 
         try
         {
-            // The Writer/Critic loop can take 30-60s. We are inside an async event
-            // handler, so the circuit stays responsive and shows the loading state.
-            _result = await Advisor.GetAdviceAsync(question);
+            // The Writer/Critic loop can take 30-60s. We are inside an async event handler,
+            // so the circuit stays responsive and shows the loading card for this exchange.
+            exchange.Result = await Advisor.GetAdviceAsync(question);
         }
         catch (InvalidOperationException ex)
         {
             // e.g. missing OPENAI_API_KEY — surface the friendly message as-is.
-            _error = ex.Message;
+            exchange.Error = ex.Message;
             Logger.LogWarning(ex, "Advisor unavailable.");
         }
         catch (Exception ex)
         {
-            _error = "Wystąpił błąd podczas generowania odpowiedzi. Spróbuj ponownie.";
+            exchange.Error = "Wystąpił błąd podczas generowania odpowiedzi. Spróbuj ponownie.";
             Logger.LogError(ex, "Advisor failed.");
         }
         finally
         {
-            _phase = Phase.Answered;
+            exchange.Loading = false;
+            _busy = false;
+            _scrollPending = true;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_scrollPending)
+        {
+            _scrollPending = false;
+            await JS.InvokeVoidAsync("window.scrollTo", 0, 1_000_000);
         }
     }
 
