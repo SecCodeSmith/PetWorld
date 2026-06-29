@@ -7,7 +7,8 @@
 # the model with AI__MODEL in .env, e.g. AI__MODEL=qwen2.5:7b for stronger structured
 # output (the Critic agent uses JSON-schema output, so bigger instruct models are safer).
 #
-# CPU-only by default (works everywhere). For NVIDIA GPU, uncomment the `deploy` block.
+# Uses an NVIDIA GPU (requires the NVIDIA Container Toolkit on the host). To run CPU-only,
+# delete the `deploy:` block under the `ollama` service.
 
 services:
   ollama:
@@ -23,14 +24,14 @@ services:
       retries: 30
       start_period: 20s
     restart: unless-stopped
-    # GPU (NVIDIA) — optional:
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    # NVIDIA GPU acceleration (needs the NVIDIA Container Toolkit on the host).
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   # One-shot helper: waits for Ollama, pulls the model, then exits successfully.
   ollama-pull:
