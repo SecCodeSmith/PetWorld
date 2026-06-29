@@ -25,12 +25,18 @@ services:
         condition: service_healthy
     ports:
       - "5000:5000"
+    # Lets the container reach a local LLM server running on the host (Linux needs this
+    # mapping; Docker Desktop on Win/Mac provides host.docker.internal automatically).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: "5000"
       ConnectionStrings__Default: "Server=db;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};TreatTinyAsBoolean=true"
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       AI__MODEL: ${AI__MODEL:-gpt-4o-mini}
+      # Optional OpenAI-compatible endpoint for a local LLM (see .env.example).
+      AI__BASEURL: ${AI__BASEURL:-}
       SEED_USER_EMAIL: ${SEED_USER_EMAIL:-}
       SEED_USER_PASSWORD: ${SEED_USER_PASSWORD:-}
     restart: unless-stopped

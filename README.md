@@ -42,8 +42,9 @@ Przy starcie aplikacja **automatycznie**:
 
 | Zmienna | Opis | Domyślnie |
 | --- | --- | --- |
-| `OPENAI_API_KEY` | Klucz OpenAI dla doradcy | — (wymagane) |
+| `OPENAI_API_KEY` | Klucz OpenAI dla doradcy (przy lokalnym serwerze dowolny placeholder) | — (wymagane) |
 | `AI__MODEL` | Model czatu (mapuje na `Ai:Model`) | `gpt-4o-mini` |
+| `AI__BASEURL` | Opcjonalny endpoint zgodny z OpenAI (lokalny LLM) — z sufiksem `/v1` | — (puste = OpenAI) |
 | `MYSQL_ROOT_PASSWORD` | Hasło root MySQL | — |
 | `MYSQL_DATABASE` | Nazwa bazy | `petworld` |
 | `MYSQL_USER` / `MYSQL_PASSWORD` | Konto aplikacyjne MySQL | — |
@@ -55,9 +56,39 @@ warstwie kompozycji DI).
 
 ---
 
+## Testowanie z lokalnym modelem LLM (zgodnym z OpenAI)
+
+Doradcę można skierować na **lokalny serwer LLM**, który wystawia API zgodne z OpenAI — bez
+żadnej zmiany w kodzie, wyłącznie konfiguracją. Wystarczy ustawić `AI__BASEURL` (z sufiksem `/v1`).
+Gdy `AI__BASEURL` jest ustawione, `OPENAI_API_KEY` może być dowolnym placeholderem.
+
+| Serwer | Uruchomienie | `AI__BASEURL` (lokalnie) | `AI__BASEURL` (z Dockera) |
+| --- | --- | --- | --- |
+| **LM Studio** | start serwera w aplikacji | `http://localhost:1234/v1` | `http://host.docker.internal:1234/v1` |
+| **Ollama** | `ollama serve` | `http://localhost:11434/v1` | `http://host.docker.internal:11434/v1` |
+| **llama.cpp** | `llama-server` | `http://localhost:8080/v1` | `http://host.docker.internal:8080/v1` |
+| **vLLM** | `vllm serve <model>` | `http://localhost:8000/v1` | `http://host.docker.internal:8000/v1` |
+
+Przykład w `.env` (LM Studio na hoście, aplikacja w Dockerze):
+
+```dotenv
+AI__BASEURL=http://host.docker.internal:1234/v1
+AI__MODEL=local-model-name
+OPENAI_API_KEY=local
+```
+
+`docker-compose.yml` dodaje `extra_hosts: host.docker.internal:host-gateway`, więc kontener
+widzi serwer LLM działający na hoście również na Linuksie.
+
+> Uwaga: pętla Writer–Critic wykonuje 2–6 wywołań modelu i wymaga **structured output**
+> (JSON wg schematu dla Critica). Wybierz lokalny model, który dobrze radzi sobie z trybem
+> JSON/grammar (np. większe modele instrukcyjne), inaczej Critic może częściej nie akceptować.
+
+---
+
 ## Architektura
 
-```
+```text
                  ┌───────────────────────────┐
                  │        PetWorld.Web        │  Blazor Server (interactive server)
                  │  .razor, Program.cs (DI)   │
