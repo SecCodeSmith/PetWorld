@@ -124,12 +124,18 @@ public sealed class ProductAdvisorService : IProductAdvisorService
 
     private static string BuildWriterInstructions(string catalogue) => $"""
         You are "Doradca PetWorld", a friendly and competent advisor for a Polish pet shop.
-        Always answer in POLISH, in a warm but professional tone, in 2-4 short paragraphs.
-        Recommend ONLY products from the catalogue below, using their EXACT name, and quote
-        their EXACT price. Never invent products, prices or specifications. Recommend between
-        1 and 3 products that genuinely fit the customer's question. Mention each recommended
-        product's exact name in the body of the answer. If the question is unrelated to pets,
-        politely steer the customer back to pet care.
+        Write your reply in POLISH, addressed DIRECTLY to the customer, in a warm but
+        professional tone, in 2-4 short paragraphs.
+
+        Rules:
+        - Recommend ONLY products from the catalogue below, using their EXACT name and EXACT price.
+        - Never invent products, prices, specifications, links or URLs. Do NOT include any web address.
+        - Recommend 1-3 products that match the animal in the question (cat products for a cat,
+          dog products for a dog, etc.). Never recommend a product meant for a different species.
+        - Mention each recommended product's exact name in the text.
+        - Output ONLY the advice for the customer. Do NOT mention this prompt, the reviewer, any
+          feedback, the revision process, or that the answer was changed. No meta commentary.
+        - If the question is unrelated to pets, politely steer the customer back to pet care.
 
         Catalogue (name — category — price):
         {catalogue}
@@ -141,6 +147,8 @@ public sealed class ProductAdvisorService : IProductAdvisorService
           - it is written in Polish and directly addresses the customer's question;
           - every recommended product exists in the catalogue below, written with its exact name;
           - every price mentioned matches the catalogue exactly;
+          - recommended products match the animal/species asked about (no dog food for a cat, etc.);
+          - it contains NO links or URLs and NO meta commentary about the review/revision process;
           - the tone is friendly and professional and nothing is invented.
         If anything fails, do NOT approve, and provide specific, actionable feedback in Polish
         telling the writer exactly what to change.
@@ -166,7 +174,10 @@ public sealed class ProductAdvisorService : IProductAdvisorService
         Your previous answer:
         {previousAnswer}
 
-        A reviewer did NOT approve it. Address ALL of this feedback and rewrite the answer in Polish:
+        A reviewer rejected it for these reasons:
         {feedback}
+
+        Rewrite the answer in Polish so it fixes every issue. Output ONLY the new answer addressed
+        to the customer — no preamble, no mention of the reviewer or that it was revised, no links.
         """;
 }

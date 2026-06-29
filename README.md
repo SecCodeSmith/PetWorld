@@ -91,8 +91,9 @@ docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
 ```
 
 - Pierwszy start pobiera model do wolumenu `ollama-data` (jednorazowo).
-- Domyślny model: `qwen2.5:3b`. Zmień przez `AI__MODEL` w `.env`, np. `AI__MODEL=qwen2.5:7b`
-  lub `AI__MODEL=llama3.1:8b` — większe modele instrukcyjne dają pewniejszy structured output.
+- Domyślny model: `qwen2.5:7b` (mieści się w ~8 GB VRAM). Zmień przez `AI__MODEL` w `.env`:
+  mniejszy/szybszy `qwen2.5:3b`, mocniejszy `qwen2.5:14b` lub `llama3.1:8b` — większe modele
+  instrukcyjne dają pewniejszy structured output i lepszą jakość odpowiedzi.
 - Używa **GPU NVIDIA** (wymaga zainstalowanego *NVIDIA Container Toolkit* na hoście). Aby
   uruchomić na CPU, usuń blok `deploy:` z usługi `ollama` w nakładce.
 
