@@ -1,0 +1,60 @@
+# Overlay that adds a LOCAL OpenAI-compatible LLM (Ollama) to the stack and points the
+# web app at it — no OpenAI key required. Use together with the base compose file:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
+#
+# The first start downloads the model into the `ollama-data` volume (one-time). Override
+# the model with AI__MODEL in .env, e.g. AI__MODEL=qwen2.5:7b for stronger structured
+# output (the Critic agent uses JSON-schema output, so bigger instruct models are safer).
+#
+# CPU-only by default (works everywhere). For NVIDIA GPU, uncomment the `deploy` block.
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama-data:/root/.ollama
+    ports:
+      - "11434:11434"
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+    # GPU (NVIDIA) — optional:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  # One-shot helper: waits for Ollama, pulls the model, then exits successfully.
+  ollama-pull:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c", "ollama pull ${AI__MODEL:-qwen2.5:3b}"]
+    restart: "no"
+
+  web:
+    depends_on:
+      db:
+        condition: service_healthy
+      ollama-pull:
+        condition: service_completed_successfully
+    environment:
+      # Point the advisor at the in-network Ollama server (OpenAI-compatible /v1 API).
+      AI__BASEURL: http://ollama:11434/v1
+      AI__MODEL: ${AI__MODEL:-qwen2.5:3b}
+      # Local servers ignore the key; a placeholder keeps the client happy.
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-local}
+
+volumes:
+  ollama-data:

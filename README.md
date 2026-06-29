@@ -80,6 +80,24 @@ OPENAI_API_KEY=local
 `docker-compose.yml` dodaje `extra_hosts: host.docker.internal:host-gateway`, więc kontener
 widzi serwer LLM działający na hoście również na Linuksie.
 
+### Gotowy stack z lokalnym LLM (Ollama) — jedna komenda
+
+Nakładka `docker-compose.ollama.yml` dokłada serwer **Ollama** (API zgodne z OpenAI),
+automatycznie pobiera model i kieruje aplikację na niego — **bez klucza OpenAI**:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
+# aplikacja: http://localhost:5000   |   Ollama API: http://localhost:11434/v1
+```
+
+- Pierwszy start pobiera model do wolumenu `ollama-data` (jednorazowo).
+- Domyślny model: `qwen2.5:3b`. Zmień przez `AI__MODEL` w `.env`, np. `AI__MODEL=qwen2.5:7b`
+  lub `AI__MODEL=llama3.1:8b` — większe modele instrukcyjne dają pewniejszy structured output.
+- CPU domyślnie (działa wszędzie). Dla GPU NVIDIA odkomentuj blok `deploy` w nakładce.
+
+**Wydajność:** na CPU pojedyncza porada (2–6 wywołań modelu) może trwać od kilkudziesięciu
+sekund do kilku minut — to normalne dla lokalnego LLM.
+
 > Uwaga: pętla Writer–Critic wykonuje 2–6 wywołań modelu i wymaga **structured output**
 > (JSON wg schematu dla Critica). Wybierz lokalny model, który dobrze radzi sobie z trybem
 > JSON/grammar (np. większe modele instrukcyjne), inaczej Critic może częściej nie akceptować.
