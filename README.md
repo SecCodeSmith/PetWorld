@@ -10,6 +10,10 @@ zgodnie z architekturą **Onion / Clean** ze ścisłą regułą zależności „
 
 <table>
   <tr>
+    <td width="50%"><b>Czat — formularz pytania</b><br/><img src="Img/chat_start.png" alt="Czat — start" /></td>
+    <td width="50%"><b>Czat — odpowiedź + liczba iteracji</b><br/><img src="Img/chat.png" alt="Czat — odpowiedź" /></td>
+  </tr>
+  <tr>
     <td width="50%"><b>Sklep</b><br/><img src="Img/sklep.png" alt="Sklep" /></td>
     <td width="50%"><b>Historia rozmów</b><br/><img src="Img/historia.png" alt="Historia rozmów" /></td>
   </tr>
