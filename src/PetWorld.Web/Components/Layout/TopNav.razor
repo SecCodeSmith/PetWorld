@@ -3,25 +3,26 @@
    badge is an interactive island. *@
 
 <header class="topnav">
-    <div class="topnav__inner">
-        <a class="brand" href="/">
+    <div class="mx-auto max-w-container-max h-16 px-gutter flex items-center justify-between gap-md">
+        <a class="inline-flex items-center gap-2 text-primary text-2xl font-bold" href="/">
             <Icon Name="paw" Size="28" />
             PetWorld
         </a>
 
-        <form class="nav-search" method="get" action="/sklep">
-            <span class="nav-search__icon"><Icon Name="search" Size="18" /></span>
-            <input name="q" placeholder="Szukaj..." aria-label="Szukaj produktów" />
+        <form class="hidden lg:block relative" method="get" action="/sklep">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-outline"><Icon Name="search" Size="18" /></span>
+            <input name="q" placeholder="Szukaj..." aria-label="Szukaj produktów"
+                   class="w-56 pl-10 pr-4 py-2 rounded-full border border-outline-variant bg-white text-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" />
         </form>
 
-        <nav class="nav-links">
-            <NavLink class="nav-link" href="/sklep" ActiveClass="nav-link--active">Sklep</NavLink>
-            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" ActiveClass="nav-link--active">Czat</NavLink>
-            <NavLink class="nav-link" href="/koszyk" ActiveClass="nav-link--active">Koszyk</NavLink>
-            <NavLink class="nav-link" href="/historia" ActiveClass="nav-link--active">Historia</NavLink>
+        <nav class="hidden md:flex items-center gap-md">
+            <NavLink class="nav-link" href="/sklep" ActiveClass="nav-link-active">Sklep</NavLink>
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" ActiveClass="nav-link-active">Czat</NavLink>
+            <NavLink class="nav-link" href="/koszyk" ActiveClass="nav-link-active">Koszyk</NavLink>
+            <NavLink class="nav-link" href="/historia" ActiveClass="nav-link-active">Historia</NavLink>
         </nav>
 
-        <div class="nav-actions">
+        <div class="flex items-center gap-base">
             <a class="icon-btn" href="/koszyk" aria-label="Koszyk">
                 <Icon Name="cart" Size="22" />
                 <CartBadge @rendermode="InteractiveServer" />
@@ -30,13 +31,13 @@
             <AuthorizeView>
                 <Authorized>
                     <a class="avatar" href="/profil" title="Profil">@Initial(context.User.Identity?.Name)</a>
-                    <form class="logout-form" method="post" action="/account/logout">
+                    <form class="inline" method="post" action="/account/logout">
                         <AntiforgeryToken />
-                        <button type="submit" class="btn btn--ghost">Wyloguj</button>
+                        <button type="submit" class="btn btn-ghost">Wyloguj</button>
                     </form>
                 </Authorized>
                 <NotAuthorized>
-                    <a class="btn btn--secondary" href="/logowanie">Zaloguj się</a>
+                    <a class="btn btn-secondary" href="/logowanie">Zaloguj się</a>
                 </NotAuthorized>
             </AuthorizeView>
         </div>

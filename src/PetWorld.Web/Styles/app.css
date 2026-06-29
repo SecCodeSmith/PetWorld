@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Self-hosted Plus Jakarta Sans (latin + latin-ext for Polish glyphs) ---- */
+@font-face {
+    font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url('/fonts/latin-400-normal.woff2') format('woff2');
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+    font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url('/fonts/latin-ext-400-normal.woff2') format('woff2');
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+    font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 500; font-display: swap;
+    src: url('/fonts/latin-500-normal.woff2') format('woff2');
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+    font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 500; font-display: swap;
+    src: url('/fonts/latin-ext-500-normal.woff2') format('woff2');
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+    font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 600; font-display: swap;
+    src: url('/fonts/latin-600-normal.woff2') format('woff2');
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+    font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 600; font-display: swap;
+    src: url('/fonts/latin-ext-600-normal.woff2') format('woff2');
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+    font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 700; font-display: swap;
+    src: url('/fonts/latin-700-normal.woff2') format('woff2');
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+    font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 700; font-display: swap;
+    src: url('/fonts/latin-ext-700-normal.woff2') format('woff2');
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@layer base {
+    html { font-family: theme('fontFamily.sans'); }
+    body { @apply bg-surface text-on-surface antialiased min-h-screen; }
+    h1, h2, h3, h4 { @apply m-0 leading-tight; }
+}
+
+@layer components {
+    /* Layout shell */
+    .app-shell { @apply flex flex-col min-h-screen; }
+    .page { @apply mx-auto w-full max-w-container-max px-gutter py-lg flex-1; }
+    .page-narrow { @apply max-w-narrow; }
+    .topnav { @apply sticky top-0 z-50 bg-surface shadow-card; }
+    .footer { @apply shrink-0 text-center text-on-surface-variant text-sm py-md border-t border-outline-variant bg-surface; }
+    .muted { @apply text-on-surface-variant; }
+    .ellipsis { @apply line-clamp-2 max-w-[420px]; }
+    .empty-state { @apply flex flex-col items-center gap-sm text-center py-xl px-md; }
+    .product-card { @apply flex flex-col gap-sm bg-white rounded-card border border-outline-variant p-md shadow-card transition hover:shadow-float hover:-translate-y-0.5; }
+
+    /* Buttons */
+    .btn { @apply inline-flex items-center justify-center gap-2 rounded-control text-sm font-semibold px-5 py-2.5 transition-colors whitespace-nowrap; }
+    .btn-primary { @apply bg-primary text-on-primary hover:bg-primary-hover; }
+    .btn-secondary { @apply bg-white text-primary border border-primary hover:bg-surface-low; }
+    .btn-ghost { @apply bg-transparent text-on-surface-variant hover:bg-surface-high hover:text-primary; }
+    .btn-lg { @apply px-6 py-3.5 text-[15px]; }
+    .btn-block { @apply w-full; }
+    .btn:disabled { @apply opacity-60 cursor-not-allowed; }
+
+    /* Cards & surfaces */
+    .card { @apply bg-white rounded-card shadow-card border border-surface-container; }
+    .card-float { @apply shadow-float; }
+
+    /* Form controls */
+    .field { @apply flex flex-col gap-1.5 mb-sm; }
+    .field > label { @apply text-sm font-semibold text-on-surface; }
+    .input { @apply w-full px-3.5 py-3 rounded-control border border-outline-variant bg-white text-on-surface text-base transition-colors; }
+    .input:focus { @apply outline-none border-primary ring-1 ring-primary; }
+    textarea.input { @apply min-h-[120px] resize-y leading-relaxed; }
+    .field-error { @apply text-error text-sm; }
+    .form-error-box { @apply bg-error-container text-on-error-container rounded-control px-3.5 py-3 text-sm; }
+    .success-box { @apply bg-secondary-container text-on-secondary-container rounded-control px-3.5 py-3 text-sm; }
+    .checkbox-row { @apply flex items-center gap-2 text-sm; }
+    .checkbox-row input { @apply w-[18px] h-[18px] accent-primary; }
+
+    /* Badges / pills / chips */
+    .badge-iter { @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[13px] font-semibold bg-secondary-container text-on-secondary-container; }
+    .pill { @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[13px] font-semibold bg-secondary-container text-on-secondary-container; }
+    .chip { @apply text-left rounded-control px-3 py-2 text-sm font-medium text-on-surface-variant transition-colors hover:bg-surface-container; }
+    .chip-active { @apply bg-secondary-container text-on-secondary-container font-semibold; }
+
+    /* Icon button + cart badge + avatar */
+    .icon-btn { @apply inline-flex items-center justify-center w-10 h-10 rounded-full bg-transparent text-on-surface-variant relative transition-colors hover:bg-surface-high hover:text-primary; }
+    .cart-badge { @apply absolute top-0.5 right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-on-primary text-[11px] font-bold inline-flex items-center justify-center; }
+    .avatar { @apply inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary-container text-on-primary font-bold border border-outline-variant; }
+
+    /* Nav links */
+    .nav-link { @apply text-on-surface-variant text-sm font-semibold py-5 border-b-2 border-transparent transition-colors hover:text-primary; }
+    .nav-link-active { @apply text-primary border-primary; }
+
+    /* Quantity stepper */
+    .stepper { @apply inline-flex items-center h-10 border border-outline-variant rounded-full bg-surface-low; }
+    .stepper-btn { @apply w-10 h-full inline-flex items-center justify-center bg-transparent text-on-surface-variant rounded-full hover:text-primary; }
+    .stepper-val { @apply min-w-[36px] text-center font-semibold; }
+
+    /* Chat bubble + advisor avatar */
+    .bubble-user { @apply self-end max-w-[80%] bg-surface-highest text-on-surface px-5 py-4 rounded-[16px_16px_4px_16px] shadow-card; }
+    .advisor-avatar { @apply inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary-container text-on-primary; }
+}
+
+/* QuickGrid history table (targets the table QuickGrid renders). */
+.history-table { width: 100%; overflow-x: auto; }
+.history-table table { width: 100%; border-collapse: collapse; }
+.history-table th { text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: #3f4943; padding: 12px 16px; border-bottom: 1px solid #e0e3df; white-space: nowrap; }
+.history-table td { padding: 14px 16px; border-bottom: 1px solid #ebefea; vertical-align: top; }
+.history-table tbody tr:hover td { background: #f1f5ef; }
+
+/* Skeleton + spinner (animations: plain CSS). */
+.skeleton { background: linear-gradient(90deg, #ebefea 25%, #e6e9e4 37%, #ebefea 63%); background-size: 400% 100%; animation: shimmer 1.4s ease infinite; border-radius: 8px; }
+.skeleton-line { height: 14px; margin-bottom: 12px; }
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+.spinner { width: 18px; height: 18px; border: 2px solid rgba(255, 255, 255, .45); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

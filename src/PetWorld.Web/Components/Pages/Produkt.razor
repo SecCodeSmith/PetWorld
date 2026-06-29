@@ -9,36 +9,36 @@
 <div class="page">
     @if (_loaded && _product is null)
     {
-        <h1 class="headline-lg">Nie znaleziono produktu</h1>
-        <p class="muted">Ten produkt nie istnieje lub został usunięty.</p>
-        <a class="btn btn--primary" href="/sklep">Wróć do sklepu</a>
+        <h1 class="text-headline-lg">Nie znaleziono produktu</h1>
+        <p class="muted mt-sm mb-md">Ten produkt nie istnieje lub został usunięty.</p>
+        <a class="btn btn-primary" href="/sklep">Wróć do sklepu</a>
     }
     else if (_product is not null)
     {
-        <nav class="breadcrumb">
-            <a href="/sklep"><Icon Name="home" Size="16" /></a>
+        <nav class="flex items-center gap-2 text-sm text-on-surface-variant mb-md">
+            <a class="hover:text-primary" href="/sklep"><Icon Name="home" Size="16" /></a>
             <Icon Name="chevron-right" Size="14" />
-            <a href="/sklep">Sklep</a>
+            <a class="hover:text-primary" href="/sklep">Sklep</a>
             <Icon Name="chevron-right" Size="14" />
-            <span>@_product.Category</span>
+            <span class="text-on-surface">@_product.Category</span>
         </nav>
 
-        <div class="pdp">
-            <div class="pdp__media">
-                <Icon Name="paw" Size="160" />
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+            <div class="bg-white rounded-card shadow-card aspect-square flex items-center justify-center text-primary-container relative overflow-hidden">
+                <Icon Name="paw" Size="160" Class="opacity-50" />
             </div>
-            <div class="pdp__info">
-                <span class="pill"><Icon Name="tag" Size="14" /> @_product.Category</span>
-                <h1 class="headline-lg">@_product.Name</h1>
-                <span class="pdp__price">@PriceFormatter.ToZl(_product.PriceGr)</span>
+            <div class="flex flex-col gap-sm">
+                <span class="pill self-start"><Icon Name="tag" Size="14" /> @_product.Category</span>
+                <h1 class="text-headline-lg">@_product.Name</h1>
+                <span class="text-[32px] font-bold text-primary">@PriceFormatter.ToZl(_product.PriceGr)</span>
                 <p class="muted">@_product.Description</p>
 
-                <div class="pdp__actions">
+                <div class="flex gap-sm items-center flex-wrap mt-sm">
                     <QuantityStepper @bind-Value="_quantity" />
-                    <button class="btn btn--primary btn--lg" @onclick="AddToCart">
+                    <button class="btn btn-primary btn-lg" @onclick="AddToCart">
                         <Icon Name="cart" Size="18" /> Dodaj do koszyka
                     </button>
-                    <button class="btn btn--secondary btn--lg" @onclick="BuyNow">Kup teraz</button>
+                    <button class="btn btn-secondary btn-lg" @onclick="BuyNow">Kup teraz</button>
                 </div>
 
                 @if (_added)

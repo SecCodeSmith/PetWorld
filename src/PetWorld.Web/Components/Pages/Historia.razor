@@ -6,7 +6,7 @@
 <PageTitle>Historia rozmów — PetWorld</PageTitle>
 
 <div class="page">
-    <h1 class="headline-lg mb-md">Historia rozmów</h1>
+    <h1 class="text-headline-lg mb-md">Historia rozmów</h1>
 
     @if (_items is null)
     {
@@ -14,16 +14,16 @@
     }
     else if (_items.Count == 0)
     {
-        <div class="card card--pad empty-state">
-            <Icon Name="robot" Size="64" />
-            <h2 class="headline-md">Brak rozmów</h2>
+        <div class="card p-md empty-state">
+            <Icon Name="robot" Size="64" Class="text-outline-variant" />
+            <h2 class="text-headline-md">Brak rozmów</h2>
             <p class="muted">Twoje pytania do doradcy pojawią się tutaj.</p>
-            <a class="btn btn--primary" href="/">Zadaj pierwsze pytanie</a>
+            <a class="btn btn-primary" href="/">Zadaj pierwsze pytanie</a>
         </div>
     }
     else
     {
-        <div class="card card--pad history-table">
+        <div class="card p-md history-table">
             <QuickGrid Items="_items.AsQueryable()">
                 <PropertyColumn Property="@(i => i.CreatedAt)" Title="Data" Format="dd.MM.yyyy HH:mm" Sortable="true" />
                 <TemplateColumn Title="Pytanie">

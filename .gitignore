@@ -21,6 +21,11 @@ appsettings.*.local.json
 **/appsettings.Development.json
 **/appsettings.*.local.json
 
+# ---- Node / Tailwind ----
+node_modules/
+# Note: src/PetWorld.Web/wwwroot/app.css is the Tailwind build output. It is committed
+# so `dotnet run` works without Node; regenerate with `npm run build:css`.
+
 # ---- Misc ----
 *.log
 design-reference/*.zip

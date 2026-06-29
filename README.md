@@ -185,6 +185,26 @@ komponentami Blazor logowania i rejestracji (bez scaffoldingu Identity UI).
 
 ---
 
+## Frontend (Tailwind CSS, self-hosted)
+
+UI korzysta z **Tailwind CSS** budowanego lokalnie do statycznego, zminifikowanego pliku
+`wwwroot/app.css` — **bez CDN w czasie działania**. Tokeny z `design-reference/DESIGN.md`
+(kolory, odstępy `md`/`gutter`, `fontSize` `headline-md`, promienie, cienie) są odwzorowane
+w `tailwind.config.js`, więc klasy typu `bg-surface`, `p-md`, `text-headline-md`,
+`rounded-card` mapują się 1:1. Czcionka Plus Jakarta Sans jest hostowana lokalnie.
+
+```bash
+cd src/PetWorld.Web
+npm install
+npm run build:css     # -> wwwroot/app.css (purged + minified)
+npm run watch:css     # tryb obserwacji podczas pracy nad UI
+```
+
+- Źródło: `Styles/app.css` (dyrektywy `@tailwind`, `@font-face`, atomy designu przez `@apply`).
+- Konfiguracja: `tailwind.config.js` (tokeny + ścieżki content do plików `.razor`).
+- Wynik: `wwwroot/app.css` (commitowany, by `dotnet run` działał bez Node; w Dockerze
+  generowany na nowo w osobnym etapie `node` — patrz `Dockerfile`).
+
 ## Ograniczenia (świadome uproszczenia)
 
 - **Koszyk** jest **w pamięci, per obwód Blazor** (rejestracja `Scoped`). Żyje tak długo jak
@@ -204,6 +224,9 @@ Wymaga **.NET 10 SDK** i działającego **MySQL**.
 # zmienne
 export OPENAI_API_KEY=sk-...
 # domyślny connection string celuje w localhost (User=root, Password=root) — patrz appsettings.json
+
+# styl (Tailwind) — wygeneruj wwwroot/app.css, jeśli edytujesz UI
+cd src/PetWorld.Web && npm install && npm run build:css && cd ../..
 
 # migracje (narzędzie EF Core 9)
 dotnet tool install --global dotnet-ef --version 9.0.0

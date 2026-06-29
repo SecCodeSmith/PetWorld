@@ -7,7 +7,7 @@
 <PageTitle>Profil — PetWorld</PageTitle>
 
 <div class="page">
-    <h1 class="headline-lg mb-md">Mój profil</h1>
+    <h1 class="text-headline-lg mb-md">Mój profil</h1>
 
     @if (_profile is null)
     {
@@ -15,18 +15,18 @@
     }
     else
     {
-        <div class="profile-layout">
-            <aside class="card profile-sidebar">
-                <span class="avatar">@Initial</span>
+        <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-gutter items-start">
+            <aside class="card p-md flex flex-col items-center gap-sm text-center">
+                <span class="avatar w-[88px] h-[88px] text-[32px]">@Initial</span>
                 <strong>@(string.IsNullOrWhiteSpace(_profile.DisplayName) ? _profile.Email : _profile.DisplayName)</strong>
-                <span class="muted" style="font-size:14px">@_profile.Email</span>
-                <div class="profile-nav">
-                    <span class="chip chip--active"><Icon Name="user" Size="16" /> Dane konta</span>
+                <span class="muted text-sm">@_profile.Email</span>
+                <div class="flex flex-col gap-1 w-full mt-sm">
+                    <span class="chip chip-active w-full flex items-center gap-2"><Icon Name="user" Size="16" /> Dane konta</span>
                 </div>
             </aside>
 
-            <section class="card card--pad">
-                <h2 class="headline-md mb-md">Dane konta</h2>
+            <section class="card p-md">
+                <h2 class="text-headline-md mb-md">Dane konta</h2>
 
                 @if (_saved)
                 {
@@ -39,7 +39,7 @@
 
                 <EditForm Model="_profile" OnValidSubmit="SaveAsync">
                     <DataAnnotationsValidator />
-                    <div class="form-grid">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
                         <div class="field">
                             <label for="displayName">Imię i nazwisko</label>
                             <InputText id="displayName" class="input" @bind-Value="_profile.DisplayName" />
@@ -53,7 +53,7 @@
                         <label for="email">Adres e-mail</label>
                         <input id="email" class="input" value="@_profile.Email" disabled />
                     </div>
-                    <button type="submit" class="btn btn--primary btn--lg mt-md">Zapisz zmiany</button>
+                    <button type="submit" class="btn btn-primary btn-lg mt-md">Zapisz zmiany</button>
                 </EditForm>
             </section>
         </div>

@@ -5,7 +5,7 @@
 <PageTitle>Sklep — PetWorld</PageTitle>
 
 <div class="page">
-    <h1 class="headline-lg mb-md">Sklep</h1>
+    <h1 class="text-headline-lg mb-md">Sklep</h1>
 
     @if (_all is null)
     {
@@ -13,27 +13,29 @@
     }
     else
     {
-        <div class="shop-layout">
-            <aside class="shop-sidebar">
-                <div class="card card--pad filter-group">
-                    <h3><Icon Name="sliders" Size="16" /> Kategorie</h3>
-                    <div class="chip-list">
-                        <button class="chip @(_category is null ? "chip--active" : "")"
+        <div class="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-gutter items-start">
+            <aside class="flex flex-col gap-md lg:sticky lg:top-[88px]">
+                <div class="card p-md">
+                    <h3 class="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-on-surface-variant mb-sm">
+                        <Icon Name="sliders" Size="16" /> Kategorie
+                    </h3>
+                    <div class="flex flex-col gap-1.5">
+                        <button class="chip @(_category is null ? "chip-active" : "")"
                                 @onclick="() => SetCategory(null)">Wszystkie</button>
                         @foreach (var category in _categories)
                         {
-                            <button class="chip @(_category == category ? "chip--active" : "")"
+                            <button class="chip @(_category == category ? "chip-active" : "")"
                                     @onclick="() => SetCategory(category)">@category</button>
                         }
                     </div>
                 </div>
             </aside>
 
-            <section class="shop-main">
-                <div class="shop-toolbar">
-                    <input class="input" placeholder="Szukaj produktów…"
+            <section>
+                <div class="flex flex-wrap gap-sm items-center justify-between mb-md">
+                    <input class="input max-w-[320px]" placeholder="Szukaj produktów…"
                            @bind="_search" @bind:event="oninput" aria-label="Szukaj produktów" />
-                    <select class="select" style="max-width:200px" @bind="_sort">
+                    <select class="input max-w-[200px]" @bind="_sort">
                         <option value="default">Domyślnie</option>
                         <option value="price-asc">Cena rosnąco</option>
                         <option value="price-desc">Cena malejąco</option>
@@ -45,11 +47,11 @@
 
                 @if (Filtered.Count == 0)
                 {
-                    <div class="card card--pad text-center muted">Brak produktów spełniających kryteria.</div>
+                    <div class="card p-md text-center muted">Brak produktów spełniających kryteria.</div>
                 }
                 else
                 {
-                    <div class="product-grid">
+                    <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-gutter">
                         @foreach (var product in Filtered)
                         {
                             <ProductCard Product="product" />

@@ -8,9 +8,9 @@
 <PageTitle>Załóż konto — PetWorld</PageTitle>
 
 <div class="page">
-    <div class="auth-wrap">
-        <div class="card auth-card">
-            <h1 class="headline-lg mb-md">Załóż konto</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg items-center max-w-[980px] mx-auto">
+        <div class="card p-lg">
+            <h1 class="text-headline-lg mb-md">Załóż konto</h1>
 
             @if (_error is not null)
             {
@@ -44,15 +44,15 @@
                     <ValidationMessage For="() => Input.ConfirmPassword" class="field-error" />
                 </div>
 
-                <button type="submit" class="btn btn--primary btn--block btn--lg mt-md">Załóż konto</button>
+                <button type="submit" class="btn btn-primary btn-block btn-lg mt-md">Załóż konto</button>
             </EditForm>
 
-            <p class="auth-switch">Masz już konto? <a href="/logowanie">Zaloguj się</a></p>
+            <p class="text-sm muted mt-md">Masz już konto? <a class="text-primary font-semibold" href="/logowanie">Zaloguj się</a></p>
         </div>
 
-        <div class="auth-aside">
+        <div class="hidden lg:flex flex-col gap-md bg-primary text-on-primary rounded-card p-lg shadow-float">
             <Icon Name="paw" Size="56" />
-            <h2 class="headline-lg">Dołącz do PetWorld</h2>
+            <h2 class="text-headline-lg">Dołącz do PetWorld</h2>
             <p>Załóż konto, aby zapisywać historię rozmów i szybciej finalizować zakupy.</p>
         </div>
     </div>

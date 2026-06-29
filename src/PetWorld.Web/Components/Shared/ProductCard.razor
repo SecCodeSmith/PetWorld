@@ -1,16 +1,17 @@
 @inject ICartService Cart
 
 <div class="product-card">
-    <a class="product-card__media" href="@Url" aria-label="@Product.Name">
-        <Icon Name="paw" Size="64" />
+    <a class="h-[150px] rounded-control bg-surface-low flex items-center justify-center text-primary-container overflow-hidden"
+       href="@Url" aria-label="@Product.Name">
+        <Icon Name="paw" Size="64" Class="opacity-60" />
     </a>
-    <div class="product-card__body">
-        <a class="product-card__title" href="@Url">@Product.Name</a>
-        <span class="product-card__cat">@Product.Category</span>
+    <div class="flex flex-col gap-0.5 flex-1">
+        <a class="text-[18px] font-semibold text-on-surface" href="@Url">@Product.Name</a>
+        <span class="text-[13px] text-on-surface-variant">@Product.Category</span>
     </div>
-    <div class="product-card__foot">
-        <span class="product-card__price">@PriceFormatter.ToZl(Product.PriceGr)</span>
-        <button class="btn btn--primary" @onclick="AddAsync">@AddLabel</button>
+    <div class="flex items-center justify-between mt-auto pt-base">
+        <span class="text-xl font-bold text-primary">@PriceFormatter.ToZl(Product.PriceGr)</span>
+        <button class="btn btn-primary" @onclick="AddAsync">@AddLabel</button>
     </div>
 </div>
 

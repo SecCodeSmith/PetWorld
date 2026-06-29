@@ -1,0 +1,13 @@
+{
+  "name": "petworld-web",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Tailwind CSS build for PetWorld (self-hosted, no runtime CDN).",
+  "scripts": {
+    "build:css": "tailwindcss -i ./Styles/app.css -o ./wwwroot/app.css --minify",
+    "watch:css": "tailwindcss -i ./Styles/app.css -o ./wwwroot/app.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
