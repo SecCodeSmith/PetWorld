@@ -63,23 +63,35 @@ public static class DependencyInjection
         // The model is configured here ONLY (Ai:Model / env AI__MODEL), never hardcoded elsewhere.
         var model = config["Ai:Model"] ?? "gpt-4o-mini";
 
+        var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("PetWorld.Advisor");
+
         // Optional OpenAI-compatible base URL so the advisor can target a LOCAL LLM server
-        // (LM Studio, Ollama, llama.cpp, vLLM, ...). Include the /v1 suffix, e.g.
-        // http://localhost:1234/v1. Leave empty to use the real OpenAI API.
-        var baseUrl = config["Ai:BaseUrl"] ?? config["OPENAI_BASE_URL"];
-        if (string.IsNullOrWhiteSpace(baseUrl))
+        // (LM Studio, Ollama, llama.cpp, vLLM, ...). Must be an absolute http(s) URL with the
+        // /v1 suffix, e.g. http://localhost:1234/v1. A malformed value is ignored (never throws,
+        // so a typo cannot crash the app) — we just warn and fall back.
+        var rawBaseUrl = config["Ai:BaseUrl"] ?? config["OPENAI_BASE_URL"];
+        Uri? endpoint = null;
+        if (!string.IsNullOrWhiteSpace(rawBaseUrl))
         {
-            baseUrl = null;
+            if (Uri.TryCreate(rawBaseUrl.Trim(), UriKind.Absolute, out var parsed) &&
+                (parsed.Scheme == Uri.UriSchemeHttp || parsed.Scheme == Uri.UriSchemeHttps))
+            {
+                endpoint = parsed;
+            }
+            else
+            {
+                logger.LogWarning(
+                    "Ignoring invalid AI base URL '{BaseUrl}'. Expected an absolute URL like http://host:port/v1.",
+                    rawBaseUrl);
+            }
         }
 
         // Local OpenAI-compatible servers usually ignore the key — allow a placeholder so
         // they still work when only a base URL (and no real key) is configured.
-        if (string.IsNullOrWhiteSpace(apiKey) && baseUrl is not null)
+        if (endpoint is not null && string.IsNullOrWhiteSpace(apiKey))
         {
             apiKey = "local";
         }
-
-        var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("PetWorld.Advisor");
 
         if (string.IsNullOrWhiteSpace(apiKey))
         {
@@ -88,10 +100,10 @@ public static class DependencyInjection
         }
 
         var options = new OpenAIClientOptions();
-        if (baseUrl is not null)
+        if (endpoint is not null)
         {
-            options.Endpoint = new Uri(baseUrl);
-            logger.LogInformation("Advisor using OpenAI-compatible endpoint {Endpoint} (model {Model}).", baseUrl, model);
+            options.Endpoint = endpoint;
+            logger.LogInformation("Advisor using OpenAI-compatible endpoint {Endpoint} (model {Model}).", endpoint, model);
         }
 
         return new OpenAIClient(new ApiKeyCredential(apiKey), options)

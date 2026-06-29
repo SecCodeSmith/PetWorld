@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using PetWorld.Application.Abstractions;
 using PetWorld.Infrastructure;
 using PetWorld.Infrastructure.Persistence;
@@ -21,6 +22,17 @@ builder.Services.AddScoped<ChatSessionState>();
 // The outer ring: EF Core + MySQL, ASP.NET Core Identity, the MAF advisor and the cart.
 // This is the ONLY call into Infrastructure from the web project.
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Persist DataProtection keys (auth cookie + antiforgery) to a stable location so they
+// survive container restarts. Without this, keys live in the container FS and are lost on
+// recreate, breaking existing cookies/antiforgery tokens. Path via DataProtection:KeysPath.
+var dataProtection = builder.Services.AddDataProtection().SetApplicationName("PetWorld");
+var keysPath = builder.Configuration["DataProtection:KeysPath"];
+if (!string.IsNullOrWhiteSpace(keysPath))
+{
+    Directory.CreateDirectory(keysPath);
+    dataProtection.PersistKeysToFileSystem(new DirectoryInfo(keysPath));
+}
 
 var app = builder.Build();
 

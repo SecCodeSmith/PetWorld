@@ -25,6 +25,9 @@ services:
         condition: service_healthy
     ports:
       - "5000:5000"
+    volumes:
+      - dp-keys:/app/keys
+
     # Lets the container reach a local LLM server running on the host (Linux needs this
     # mapping; Docker Desktop on Win/Mac provides host.docker.internal automatically).
     extra_hosts:
@@ -39,7 +42,10 @@ services:
       AI__BASEURL: ${AI__BASEURL:-}
       SEED_USER_EMAIL: ${SEED_USER_EMAIL:-}
       SEED_USER_PASSWORD: ${SEED_USER_PASSWORD:-}
+      # Keep auth-cookie / antiforgery keys across container restarts.
+      DataProtection__KeysPath: /app/keys
     restart: unless-stopped
 
 volumes:
   db-data:
+  dp-keys:
