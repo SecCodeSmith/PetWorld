@@ -9,4 +9,7 @@ public interface IChatHistoryRepository
 
     /// <summary>All interactions, newest first.</summary>
     Task<IReadOnlyList<ChatInteraction>> ListNewestFirstAsync(CancellationToken ct = default);
+
+    /// <summary>A single interaction by id (used to reopen a past chat), or null.</summary>
+    Task<ChatInteraction?> GetByIdAsync(int id, CancellationToken ct = default);
 }

@@ -35,6 +35,9 @@
                 <TemplateColumn Title="Liczba iteracji">
                     <IterationBadge Count="context.IterationCount" />
                 </TemplateColumn>
+                <TemplateColumn Title="">
+                    <a class="text-primary font-semibold whitespace-nowrap" href="@($"/?reopen={context.Id}")">Otwórz</a>
+                </TemplateColumn>
             </QuickGrid>
         </div>
     }

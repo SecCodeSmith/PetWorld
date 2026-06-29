@@ -2,6 +2,7 @@ using PetWorld.Application.Abstractions;
 using PetWorld.Infrastructure;
 using PetWorld.Infrastructure.Persistence;
 using PetWorld.Web.Components;
+using PetWorld.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,9 @@ builder.Services.AddRazorComponents()
 // Auth state cascades to all components; pages opt in with [Authorize] / <AuthorizeView>.
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthorization();
+
+// Per-circuit advisor conversation, so the chat survives navigation and can be reopened.
+builder.Services.AddScoped<ChatSessionState>();
 
 // The outer ring: EF Core + MySQL, ASP.NET Core Identity, the MAF advisor and the cart.
 // This is the ONLY call into Infrastructure from the web project.

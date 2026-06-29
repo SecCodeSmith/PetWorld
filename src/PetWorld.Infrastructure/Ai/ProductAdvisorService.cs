@@ -2,6 +2,7 @@ using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using PetWorld.Application.Abstractions;
+using PetWorld.Application.Common;
 using PetWorld.Application.Dtos;
 using PetWorld.Domain.Entities;
 using PetWorld.Infrastructure.Persistence;
@@ -107,9 +108,7 @@ public sealed class ProductAdvisorService : IProductAdvisorService
     private async Task<IReadOnlyList<Product>> MatchRecommendedProductsAsync(string answer, CancellationToken ct)
     {
         var all = await _products.GetAllAsync(ct);
-        return all
-            .Where(p => answer.Contains(p.Name, StringComparison.OrdinalIgnoreCase))
-            .ToList();
+        return RecommendationMatcher.Match(answer, all);
     }
 
     private Task PersistAsync(string question, string answer, int iterations, bool approved, CancellationToken ct) =>

@@ -1,13 +1,17 @@
 @page "/"
 @rendermode InteractiveServer
 @inject IProductAdvisorService Advisor
+@inject IChatHistoryRepository History
+@inject IProductRepository Products
+@inject ChatSessionState Session
+@inject NavigationManager Nav
 @inject IJSRuntime JS
 @inject ILogger<Czat> Logger
 
 <PageTitle>Czat — PetWorld</PageTitle>
 
 <div class="page page-narrow flex flex-col gap-md">
-    @if (_exchanges.Count == 0)
+    @if (Session.IsEmpty)
     {
         <div class="text-center mb-sm">
             <h1 class="text-display-lg">Zapytaj naszego doradcę</h1>
@@ -16,10 +20,13 @@
     }
     else
     {
-        <h1 class="text-headline-lg">Doradca PetWorld</h1>
+        <div class="flex items-center justify-between">
+            <h1 class="text-headline-lg">Doradca PetWorld</h1>
+            <button class="btn btn-secondary" @onclick="NewChat">Nowa rozmowa</button>
+        </div>
     }
 
-    @foreach (var exchange in _exchanges)
+    @foreach (var exchange in Session.Exchanges)
     {
         <div class="bubble-user">@exchange.Question</div>
 
@@ -77,16 +84,16 @@
 
     <div class="card p-md sticky bottom-md">
         <div class="field">
-            <label for="question">@(_exchanges.Count == 0 ? "Twoje pytanie" : "Zadaj kolejne pytanie")</label>
+            <label for="question">@(Session.IsEmpty ? "Twoje pytanie" : "Zadaj kolejne pytanie")</label>
             <textarea id="question" class="input" rows="2"
-                      placeholder="@(_exchanges.Count == 0 ? "Np. Mam młodego kota, jaką karmę polecacie?" : "Zadaj kolejne pytanie…")"
+                      placeholder="@(Session.IsEmpty ? "Np. Mam młodego kota, jaką karmę polecacie?" : "Zadaj kolejne pytanie…")"
                       @bind="_question" @bind:event="oninput"
-                      disabled="@_busy"></textarea>
+                      disabled="@Busy"></textarea>
         </div>
         <div class="flex justify-end mt-sm">
             <button class="btn btn-primary btn-lg" @onclick="SubmitAsync"
-                    disabled="@(_busy || string.IsNullOrWhiteSpace(_question))">
-                @if (_busy)
+                    disabled="@(Busy || string.IsNullOrWhiteSpace(_question))">
+                @if (Busy)
                 {
                     <span class="spinner"></span>
                     <span>Analizuję…</span>
@@ -102,31 +109,61 @@
 </div>
 
 @code {
-    private sealed class Exchange
+    [SupplyParameterFromQuery]
+    public int? Reopen { get; set; }
+
+    private string? _question;
+    private bool _scrollPending;
+    private int? _shownReopenId;
+
+    private bool Busy => Session.IsBusy;
+
+    protected override async Task OnParametersSetAsync()
     {
-        public required string Question { get; init; }
-        public AdvisorResult? Result { get; set; }
-        public string? Error { get; set; }
-        public bool Loading { get; set; } = true;
+        // Reopen a past conversation when arriving from History (/?reopen={id}).
+        if (Reopen is int id && id != _shownReopenId)
+        {
+            _shownReopenId = id;
+            await ReopenAsync(id);
+        }
     }
 
-    private readonly List<Exchange> _exchanges = [];
-    private string? _question;
-    private bool _busy;
-    private bool _scrollPending;
-
-    private async Task SubmitAsync()
+    private async Task ReopenAsync(int id)
     {
-        var question = _question?.Trim();
-        if (string.IsNullOrWhiteSpace(question) || _busy)
+        var interaction = await History.GetByIdAsync(id);
+        if (interaction is null)
         {
             return;
         }
 
-        var exchange = new Exchange { Question = question };
-        _exchanges.Add(exchange);
+        var products = await Products.GetAllAsync();
+        Session.Clear();
+        Session.Exchanges.Add(new ChatExchange
+        {
+            Question = interaction.Question,
+            Loading = false,
+            Result = new AdvisorResult
+            {
+                Answer = interaction.FinalAnswer,
+                Iterations = interaction.IterationCount,
+                Approved = interaction.Approved,
+                RecommendedProducts = RecommendationMatcher.Match(interaction.FinalAnswer, products),
+            },
+        });
+        _scrollPending = true;
+    }
+
+    private async Task SubmitAsync()
+    {
+        var question = _question?.Trim();
+        if (string.IsNullOrWhiteSpace(question) || Busy)
+        {
+            return;
+        }
+
+        var exchange = new ChatExchange { Question = question, Loading = true };
+        Session.Exchanges.Add(exchange);
         _question = string.Empty;
-        _busy = true;
         _scrollPending = true;
 
         try
@@ -149,8 +186,17 @@
         finally
         {
             exchange.Loading = false;
-            _busy = false;
             _scrollPending = true;
+        }
+    }
+
+    private void NewChat()
+    {
+        Session.Clear();
+        _shownReopenId = null;
+        if (Reopen is not null)
+        {
+            Nav.NavigateTo("/");
         }
     }
 

@@ -19,4 +19,7 @@ public sealed class ChatHistoryRepository(PetWorldDbContext db) : IChatHistoryRe
             .OrderByDescending(c => c.CreatedAt)
             .ThenByDescending(c => c.Id)
             .ToListAsync(ct);
+
+    public async Task<ChatInteraction?> GetByIdAsync(int id, CancellationToken ct = default) =>
+        await db.ChatInteractions.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, ct);
 }
