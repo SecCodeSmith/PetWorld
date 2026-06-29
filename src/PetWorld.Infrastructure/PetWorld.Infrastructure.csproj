@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Infrastructure: the ONLY project allowed to reference EF Core, Pomelo MySQL,
+       ASP.NET Core Identity and the Microsoft Agent Framework. It implements the
+       abstractions declared in Application. This is the outer ring of the onion. -->
+
+  <!-- ASP.NET Core Identity (SignInManager, cookie auth) and the Blazor
+       AuthenticationStateProvider live in the shared framework. Referencing it
+       here keeps ALL Identity/auth code in Infrastructure, out of Web. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PetWorld.Application\PetWorld.Application.csproj" />
+    <ProjectReference Include="..\PetWorld.Domain\PetWorld.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Microsoft Agent Framework 1.0 GA (stable 1.x line). NOT prerelease. -->
+    <PackageReference Include="Microsoft.Agents.AI" Version="1.11.1" />
+    <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.11.1" />
+
+    <!-- EF Core 9 stack. Pomelo's latest stable (9.0.0) targets EF Core 9, so the
+         whole EF/Identity stack is pinned to 9.0.x. It runs cleanly on the .NET 10
+         runtime (net10.0 is backward compatible with the net9.0 assets). -->
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>
