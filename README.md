@@ -8,9 +8,9 @@ zgodnie z architekturą **Onion / Clean** ze ścisłą regułą zależności „
 
 ## Wymagania wstępne
 
-- **Docker** i **Docker Compose** (jedyne, czego potrzeba, aby uruchomić całość).
-- **Klucz OpenAI API** (`OPENAI_API_KEY`) — używany przez doradcę.
-- (Opcjonalnie, do uruchomienia lokalnego bez Dockera: .NET 10 SDK i serwer MySQL.)
+- **Docker** i **Docker Compose** — to wszystko, czego potrzeba, aby uruchomić całość.
+- **Klucz OpenAI** (`OPENAI_API_KEY`) **albo** lokalny serwer LLM zgodny z OpenAI (patrz [Lokalny model LLM](#lokalny-model-llm-zgodny-z-openai)).
+- Opcjonalnie, do pracy bez Dockera: .NET 10 SDK, MySQL oraz Node.js (build Tailwind).
 
 ---
 
@@ -56,53 +56,23 @@ warstwie kompozycji DI).
 
 ---
 
-## Testowanie z lokalnym modelem LLM (zgodnym z OpenAI)
+## Lokalny model LLM (zgodny z OpenAI)
 
-Doradcę można skierować na **lokalny serwer LLM**, który wystawia API zgodne z OpenAI — bez
-żadnej zmiany w kodzie, wyłącznie konfiguracją. Wystarczy ustawić `AI__BASEURL` (z sufiksem `/v1`).
-Gdy `AI__BASEURL` jest ustawione, `OPENAI_API_KEY` może być dowolnym placeholderem.
+Doradcę można skierować na lokalny serwer LLM (LM Studio, Ollama, llama.cpp, vLLM) wyłącznie
+konfiguracją — ustaw `AI__BASEURL` na endpoint z sufiksem `/v1`; wtedy `OPENAI_API_KEY` może być
+dowolnym placeholderem. Z kontenera używaj `http://host.docker.internal:<port>/v1`
+(`docker-compose.yml` dodaje `extra_hosts: host.docker.internal:host-gateway` dla Linuksa).
 
-| Serwer | Uruchomienie | `AI__BASEURL` (lokalnie) | `AI__BASEURL` (z Dockera) |
-| --- | --- | --- | --- |
-| **LM Studio** | start serwera w aplikacji | `http://localhost:1234/v1` | `http://host.docker.internal:1234/v1` |
-| **Ollama** | `ollama serve` | `http://localhost:11434/v1` | `http://host.docker.internal:11434/v1` |
-| **llama.cpp** | `llama-server` | `http://localhost:8080/v1` | `http://host.docker.internal:8080/v1` |
-| **vLLM** | `vllm serve <model>` | `http://localhost:8000/v1` | `http://host.docker.internal:8000/v1` |
-
-Przykład w `.env` (LM Studio na hoście, aplikacja w Dockerze):
-
-```dotenv
-AI__BASEURL=http://host.docker.internal:1234/v1
-AI__MODEL=local-model-name
-OPENAI_API_KEY=local
-```
-
-`docker-compose.yml` dodaje `extra_hosts: host.docker.internal:host-gateway`, więc kontener
-widzi serwer LLM działający na hoście również na Linuksie.
-
-### Gotowy stack z lokalnym LLM (Ollama) — jedna komenda
-
-Nakładka `docker-compose.ollama.yml` dokłada serwer **Ollama** (API zgodne z OpenAI),
-automatycznie pobiera model i kieruje aplikację na niego — **bez klucza OpenAI**:
+**Najprościej — gotowy stack z Ollamą (jedna komenda, bez klucza OpenAI):**
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
-# aplikacja: http://localhost:5000   |   Ollama API: http://localhost:11434/v1
 ```
 
-- Pierwszy start pobiera model do wolumenu `ollama-data` (jednorazowo).
-- Domyślny model: `qwen2.5:7b` (mieści się w ~8 GB VRAM). Zmień przez `AI__MODEL` w `.env`:
-  mniejszy/szybszy `qwen2.5:3b`, mocniejszy `qwen2.5:14b` lub `llama3.1:8b` — większe modele
-  instrukcyjne dają pewniejszy structured output i lepszą jakość odpowiedzi.
-- Używa **GPU NVIDIA** (wymaga zainstalowanego *NVIDIA Container Toolkit* na hoście). Aby
-  uruchomić na CPU, usuń blok `deploy:` z usługi `ollama` w nakładce.
-
-**Wydajność:** na GPU pojedyncza porada (2–6 wywołań modelu) zwykle zajmuje kilka–kilkanaście
-sekund; na CPU może to być kilka minut — to normalne dla lokalnego LLM.
-
-> Uwaga: pętla Writer–Critic wykonuje 2–6 wywołań modelu i wymaga **structured output**
-> (JSON wg schematu dla Critica). Wybierz lokalny model, który dobrze radzi sobie z trybem
-> JSON/grammar (np. większe modele instrukcyjne), inaczej Critic może częściej nie akceptować.
+Nakładka uruchamia serwer Ollama, pobiera model do wolumenu `ollama-data` i kieruje na niego
+aplikację. Model wybiera `AI__MODEL` w `.env` (domyślnie `qwen2.5:7b`; większe modele = pewniejszy
+structured output Critica). Domyślnie używa **GPU NVIDIA** (wymaga *NVIDIA Container Toolkit*) —
+aby uruchomić na CPU, usuń blok `deploy:` z usługi `ollama`. Na CPU jedna porada może trwać kilka minut.
 
 ---
 
