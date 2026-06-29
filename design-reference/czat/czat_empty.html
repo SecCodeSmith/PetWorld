@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PetWorld - Zapytaj doradcę</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#161d1b",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#181d1a",
+                      "tertiary-fixed-dim": "#c1c8c4",
+                      "surface-container": "#ebefea",
+                      "surface-container-low": "#f1f5ef",
+                      "on-surface": "#181d1a",
+                      "tertiary-container": "#6a716e",
+                      "surface-dim": "#d7dbd6",
+                      "secondary-fixed": "#c5eccc",
+                      "background": "#f7faf5",
+                      "on-secondary-fixed": "#00210e",
+                      "on-surface-variant": "#3f4943",
+                      "surface-bright": "#f7faf5",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#e0e3df",
+                      "tertiary": "#515956",
+                      "on-secondary-container": "#486a51",
+                      "error": "#ba1a1a",
+                      "inverse-primary": "#88d6af",
+                      "secondary-fixed-dim": "#aad0b1",
+                      "tertiary-fixed": "#dde4e0",
+                      "secondary-container": "#c2e9c9",
+                      "primary": "#096444",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#002113",
+                      "surface": "#f7faf5",
+                      "on-tertiary": "#ffffff",
+                      "primary-container": "#2e7d5b",
+                      "error-container": "#ffdad6",
+                      "surface-container-high": "#e6e9e4",
+                      "on-error": "#ffffff",
+                      "surface-tint": "#176b4b",
+                      "primary-fixed-dim": "#88d6af",
+                      "primary-fixed": "#a4f3ca",
+                      "on-tertiary-container": "#eff6f2",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed-variant": "#2c4e36",
+                      "outline": "#6f7a72",
+                      "surface-container-highest": "#e0e3df",
+                      "secondary": "#43664d",
+                      "outline-variant": "#bec9c1",
+                      "on-tertiary-fixed-variant": "#414846",
+                      "on-primary-container": "#d0ffe3",
+                      "inverse-surface": "#2d312e",
+                      "on-primary-fixed-variant": "#005236",
+                      "inverse-on-surface": "#eef2ed"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "md": "24px",
+                      "lg": "48px",
+                      "container-max": "1280px",
+                      "base": "8px",
+                      "sm": "12px",
+                      "xl": "80px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            },
+          }
+      }
+    </script>
+</head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- Paw Print Pattern Background (Subtle Motif) -->
+<div class="fixed inset-0 pointer-events-none z-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M14.5 16.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5zm11 0c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5zm-5.5 15.5c-4 0-7-3-7-7s3-7 7-7 7 3 7 7-3 7-7 7zm-8.5-8c-2 0-3.5-1.5-3.5-3.5s1.5-3.5 3.5-3.5 3.5 1.5 3.5 3.5-1.5 3.5-3.5 3.5zm17 0c-2 0-3.5-1.5-3.5-3.5s1.5-3.5 3.5-3.5 3.5 1.5 3.5 3.5-1.5 3.5-3.5 3.5z\' fill=\'%23096444\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');"></div>
+<!-- TopNavBar -->
+<header class="bg-surface-bright dark:bg-surface-dim docked full-width top-0 shadow-sm dark:shadow-none shadow-[0px_8px_30px_rgba(31,36,33,0.08)] fixed left-0 w-full z-50">
+<div class="flex justify-between items-center px-gutter py-sm max-w-container-max mx-auto">
+<!-- Brand Logo -->
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+                PetWorld
+            </div>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden md:flex gap-lg">
+<!-- Czat - Active -->
+<a class="font-headline-md text-headline-md font-body-md text-body-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 active:scale-95 transition-transform hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">
+                    Czat
+                </a>
+<!-- Historia - Inactive -->
+<a class="font-headline-md text-headline-md font-body-md text-body-md text-on-surface-variant dark:text-surface-variant font-body-md text-body-md active:scale-95 transition-transform hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">
+                    Historia
+                </a>
+</nav>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md text-primary dark:text-primary-fixed-dim">
+<!-- Search Placeholder (Search bar 'on_left' handled implicitly or omitted as it's an action in desktop usually) -->
+<!-- Actions -->
+<button aria-label="notifications" class="active:scale-95 transition-transform hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="shopping_cart" class="active:scale-95 transition-transform hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<!-- Profile -->
+<button class="ml-sm rounded-full overflow-hidden w-10 h-10 border border-outline-variant hover:border-primary transition-colors active:scale-95">
+<img alt="Profil użytkownika" class="w-full h-full object-cover" data-alt="A modern minimalist vector illustration of a generic user avatar. Clean lines, soft primary green tones against a pale surface container lowest background. Friendly and simple geometry, conveying trust in a pet care context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKSXDCo3udDLYPrWL7XT1hQiRVUuxi9nMtp06AzxD65_gPTgggg5d4v-Pn8JQcg93XSpBgrR9XtcDC1E8qCPMH-8sgosfvc2VQqxaRtDFpPNgC8E3o0F7tsGKtNw52oKhOHJ-xrKZLPmKZKIx_4zxkEZskgGgI_yTo022JBhOruP-7pWhM0xqU9CHpTkEhD2gvBpO1R-porXaUqma4qQtBSGmmLZ7lYMwRhOtgFFloybOPczVPaEJMcMtUo7jn0d0QFqRGuxspQNlT"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[100px] pb-xl px-gutter relative z-10 flex flex-col items-center">
+<!-- Centered Container Max Width 800px -->
+<div class="w-full max-w-[800px] flex flex-col flex-grow">
+<!-- Page Header -->
+<div class="text-center mb-lg">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-sm">Zapytaj naszego doradcę</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Opisz swojego pupila, a my dobierzemy produkty.</p>
+</div>
+<!-- Chat / Input Area (Bento-style glassmorphism inspired card) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] p-md md:p-lg flex flex-col flex-grow relative border border-surface-variant">
+<!-- AI Assistant decorative header -->
+<div class="flex items-center gap-sm mb-md pb-sm border-b border-surface-variant">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-sm relative">
+<span class="material-symbols-outlined" data-icon="smart_toy" data-weight="fill" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<div class="absolute inset-0 rounded-full bg-primary animate-ping opacity-20"></div>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">AI Doradca PetWorld</span>
+<span class="font-body-md text-body-md text-primary text-sm flex items-center gap-xs"><span class="w-2 h-2 rounded-full bg-primary inline-block"></span> Gotowy do pomocy</span>
+</div>
+</div>
+<!-- Empty State Content Area -->
+<div class="flex-grow flex flex-col items-center justify-center py-xl text-center">
+<div class="w-32 h-32 mb-md opacity-80 mix-blend-multiply">
+<img alt="Pusty czat" class="w-full h-full object-contain" data-alt="A clean, modern minimalist 3D rendering of an abstract AI bot floating above a soft dog bed. The scene uses soft, diffused light mode illumination. The color palette features pale sage greens, bright whites, and subtle primary green accents. The overall mood is friendly, intelligent, and deeply connected to modern pet wellness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-L-T08rpwUg8fbAORhBFiT0a-vdsthMSmo4eZG5stDljTcIDYQ58_ren8uljX1IhjZJA0PUo00AhWzWBBsF_5_lpSngivPaR3gYPwP959GGdk-jywTk3ItwHoxcbVRblLG56og1zXJuvJQIuBUGwmfKz-BDxR9jKwMHDIIIgEqJF3vw8e-Y01qYpMcBiV3ZVpHiSBpy6OfyK2MwBkrA9x2XxqIh7SdbkWbF3gnT00XJEwWZhoKZBjUQGo6WRpUBmfOKLLABU4ufHQ"/>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">Jestem tu, aby pomóc Ci znaleźć najlepsze rozwiązania dla Twojego zwierzaka. Zacznijmy rozmowę!</p>
+</div>
+<!-- Input Area -->
+<div class="mt-auto pt-md relative">
+<label class="sr-only" for="chat-input">Wpisz swoje pytanie</label>
+<textarea class="w-full bg-surface-bright border border-surface-variant rounded-lg p-md font-body-md text-body-md text-on-surface placeholder-on-surface-variant/50 focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none shadow-sm" id="chat-input" placeholder="Np. Mam młodego kota, jaką karmę polecacie?" rows="3"></textarea>
+<div class="flex justify-end mt-sm">
+<button class="bg-primary text-on-primary font-label-md text-label-md py-sm px-lg rounded-[10px] hover:bg-primary-container transition-colors shadow-sm active:scale-95 flex items-center gap-sm">
+<span>Wyślij</span>
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-surface-container-highest full-width bottom-0 flat no shadows w-full py-lg px-gutter flex flex-col md:flex-row justify-between items-center z-10 relative mt-auto">
+<!-- Brand / Copyright -->
+<div class="mb-md md:mb-0 flex flex-col items-center md:items-start gap-xs">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-on-background">PetWorld</span>
+<span class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant">© 2026 PetWorld. Modern Wellness for Pets.</span>
+</div>
+<!-- Links -->
+<nav class="flex gap-md md:gap-lg flex-wrap justify-center font-label-md text-label-md">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Regulamin</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Prywatność</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Kontakt</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">O nas</a>
+</nav>
+</footer>
+</body></html>

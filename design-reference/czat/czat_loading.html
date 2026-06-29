@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PetWorld - Zapytaj doradcę (Ładowanie)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#161d1b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#181d1a",
+                        "tertiary-fixed-dim": "#c1c8c4",
+                        "surface-container": "#ebefea",
+                        "surface-container-low": "#f1f5ef",
+                        "on-surface": "#181d1a",
+                        "tertiary-container": "#6a716e",
+                        "surface-dim": "#d7dbd6",
+                        "secondary-fixed": "#c5eccc",
+                        "background": "#f7faf5",
+                        "on-secondary-fixed": "#00210e",
+                        "on-surface-variant": "#3f4943",
+                        "surface-bright": "#f7faf5",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e0e3df",
+                        "tertiary": "#515956",
+                        "on-secondary-container": "#486a51",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#88d6af",
+                        "secondary-fixed-dim": "#aad0b1",
+                        "tertiary-fixed": "#dde4e0",
+                        "secondary-container": "#c2e9c9",
+                        "primary": "#096444",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#002113",
+                        "surface": "#f7faf5",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#2e7d5b",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e9e4",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#176b4b",
+                        "primary-fixed-dim": "#88d6af",
+                        "primary-fixed": "#a4f3ca",
+                        "on-tertiary-container": "#eff6f2",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#2c4e36",
+                        "outline": "#6f7a72",
+                        "surface-container-highest": "#e0e3df",
+                        "secondary": "#43664d",
+                        "outline-variant": "#bec9c1",
+                        "on-tertiary-fixed-variant": "#414846",
+                        "on-primary-container": "#d0ffe3",
+                        "inverse-surface": "#2d312e",
+                        "on-primary-fixed-variant": "#005236",
+                        "inverse-on-surface": "#eef2ed"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "md": "24px",
+                        "lg": "48px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "xl": "80px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col font-body-md text-on-background pt-[72px]">
+<!-- TopNavBar -->
+<header class="bg-surface-bright dark:bg-surface-dim shadow-[0px_8px_30px_rgba(31,36,33,0.08)] fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter py-sm max-w-container-max mx-auto shadow-sm dark:shadow-none bg-surface-bright dark:bg-surface-dim docked full-width top-0">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">PetWorld</span>
+<div class="hidden md:flex items-center ml-4 px-3 py-2 bg-surface-container rounded-lg border border-outline-variant focus-within:border-primary">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md text-on-surface placeholder:text-outline w-48" placeholder="Szukaj..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 font-body-md text-body-md active:scale-95 transition-transform" href="#">Czat</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md text-body-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform" href="#">Historia</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-primary dark:text-primary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-primary dark:text-primary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Profil użytkownika" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcQe7U5ix5aKCouGvBjIuzWsWNYbgKVISEIUSjeTcbMQ75141kTosT1hzXDcRgVFgpKnEBbiB9A_nzW3dFsxbuPof30aKxJa3nusLt5u0LTQzGucXzzzY3Zr8oxC2iVFpuom7Tgq52XYwOulvuPxeCmHtDThEzQDYMQdEe3RK0Rgaifw2kLRo8A5c_SRxx5wKLXypKUfU73KIFI7x5t277qq5FPNEz7VtfuoRgrE73mJxFjEpajTZQboU-QPyEaK2axRXwxbKMD--h"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center justify-start w-full px-gutter py-lg"><div class="max-w-[800px] mx-auto flex flex-col gap-8">
+<div class="flex justify-end">
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm px-6 py-4 max-w-[80%] shadow-[0px_4px_20px_rgba(31,36,33,0.05)]">
+<p class="font-body-md text-body-md">Jakie witaminy będą najlepsze dla sześcioletniego owczarka niemieckiego z problemami stawów?</p>
+</div>
+</div>
+<div class="flex justify-start">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl rounded-tl-sm p-6 max-w-full shadow-[0px_4px_20px_rgba(31,36,33,0.05)] flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-surface-variant pb-4">
+<div class="flex items-center gap-3 text-secondary">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container">smart_toy</span>
+</div>
+<span class="font-label-md text-label-md font-bold">Doradca PetWorld</span>
+</div>
+<span class="bg-tertiary-container text-on-tertiary px-3 py-1 rounded-full font-label-md text-xs">Generowanie...</span>
+</div>
+<div class="flex-grow flex flex-col gap-4 pt-2 w-full">
+<div class="h-6 bg-surface-container-high rounded-md w-1/3 animate-pulse"></div>
+<div class="space-y-3 mt-4 w-full">
+<div class="h-4 bg-surface-container-high rounded-md w-full animate-pulse"></div>
+<div class="h-4 bg-surface-container-high rounded-md w-[95%] animate-pulse"></div>
+<div class="h-4 bg-surface-container-high rounded-md w-[90%] animate-pulse"></div>
+<div class="h-4 bg-surface-container-high rounded-md w-[70%] animate-pulse"></div>
+</div>
+<div class="space-y-3 mt-4 w-full">
+<div class="h-4 bg-surface-container-high rounded-md w-[85%] animate-pulse"></div>
+<div class="h-4 bg-surface-container-high rounded-md w-[92%] animate-pulse"></div>
+<div class="h-4 bg-surface-container-high rounded-md w-1/2 animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<input class="flex-grow bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none text-on-surface placeholder:text-outline-variant opacity-70 cursor-not-allowed" disabled="" placeholder="Zadaj kolejne pytanie..." type="text"/>
+<button class="bg-[#84A98C] text-white px-6 py-3 rounded-lg font-label-md text-label-md flex items-center gap-2 opacity-80 cursor-not-allowed">
+<span>Wyślij</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+<p class="text-center font-body-md text-xs text-outline-variant">AI może popełniać błędy. Zweryfikuj ważne informacje z weterynarzem.</p>
+</div></main>
+<!-- Footer -->
+<footer class="w-full py-lg px-gutter flex flex-col md:flex-row justify-between items-center bg-surface-container dark:bg-surface-container-highest text-primary dark:text-primary-fixed-dim font-body-md text-body-md font-label-md text-label-md full-width bottom-0 transition-all duration-200 mt-auto">
+<div class="mb-md md:mb-0 text-center md:text-left flex flex-col gap-sm">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-on-background">PetWorld</span>
+<span class="text-on-surface-variant dark:text-surface-variant text-sm">© 2026 PetWorld. Modern Wellness for Pets.</span>
+</div>
+<div class="flex flex-wrap justify-center gap-md md:gap-lg">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Regulamin</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Prywatność</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Kontakt</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">O nas</a>
+</div>
+</footer>
+</body></html>

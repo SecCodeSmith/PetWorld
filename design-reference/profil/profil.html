@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profil - PetWorld</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#aad0b1",
+                    "on-surface": "#181d1a",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#161d1b",
+                    "tertiary-container": "#6a716e",
+                    "on-secondary-fixed": "#00210e",
+                    "on-primary-fixed": "#002113",
+                    "on-primary-container": "#d0ffe3",
+                    "primary-fixed-dim": "#88d6af",
+                    "surface-tint": "#176b4b",
+                    "primary-container": "#2e7d5b",
+                    "background": "#f7faf5",
+                    "tertiary": "#515956",
+                    "surface-container-highest": "#e0e3df",
+                    "tertiary-fixed-dim": "#c1c8c4",
+                    "secondary-fixed": "#c5eccc",
+                    "inverse-primary": "#88d6af",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f7faf5",
+                    "inverse-surface": "#2d312e",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#a4f3ca",
+                    "surface-dim": "#d7dbd6",
+                    "on-secondary-fixed-variant": "#2c4e36",
+                    "secondary-container": "#c2e9c9",
+                    "on-tertiary-container": "#eff6f2",
+                    "surface": "#f7faf5",
+                    "surface-container-high": "#e6e9e4",
+                    "on-background": "#181d1a",
+                    "tertiary-fixed": "#dde4e0",
+                    "on-tertiary-fixed-variant": "#414846",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e0e3df",
+                    "surface-container": "#ebefea",
+                    "outline-variant": "#bec9c1",
+                    "inverse-on-surface": "#eef2ed",
+                    "surface-container-low": "#f1f5ef",
+                    "on-primary-fixed-variant": "#005236",
+                    "on-error": "#ffffff",
+                    "primary": "#096444",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#486a51",
+                    "on-error-container": "#93000a",
+                    "secondary": "#43664d",
+                    "outline": "#6f7a72",
+                    "on-surface-variant": "#3f4943"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "md": "24px",
+                    "container-max": "1280px",
+                    "base": "8px",
+                    "lg": "48px",
+                    "gutter": "24px",
+                    "xl": "80px",
+                    "sm": "12px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-sm sticky top-0 z-50 w-full transition-all duration-200 ease-in-out hidden md:flex"><div class="flex justify-between items-center w-full px-md h-16 max-w-container-max mx-auto">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">PetWorld</div>
+<nav class="flex gap-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-4" href="#">Sklep</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-4" href="#">Czat</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-4" href="#">Koszyk</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-4" href="#">Historia</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-1 right-1 w-4 h-4 bg-primary text-on-primary text-[10px] flex items-center justify-center rounded-full">2</span>
+</button>
+<button class="text-primary dark:text-primary-fixed-dim hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</div>
+</div></header>
+<!-- Main Layout -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-md lg:px-gutter py-lg flex flex-col md:flex-row gap-lg">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-64 flex-shrink-0 mb-lg md:mb-0 hidden md:block">
+<nav class="flex flex-col gap-sm bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] border border-surface-container-highest">
+<a class="flex items-center gap-sm p-sm rounded-lg bg-secondary-container text-on-secondary-container font-label-md text-label-md transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                    Dane konta
+                </a>
+<a class="flex items-center gap-sm p-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                    Historia zamówień
+                </a>
+<a class="flex items-center gap-sm p-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="home_work">home_work</span>
+                    Adresy
+                </a>
+<a class="flex items-center gap-sm p-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Ustawienia
+                </a>
+<div class="h-px bg-surface-container-highest my-sm"></div>
+<a class="flex items-center gap-sm p-sm rounded-lg text-error hover:bg-error-container hover:text-on-error-container transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Wyloguj się
+                </a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<section class="flex-grow bg-surface-container-lowest rounded-[1rem] p-lg shadow-[0px_4px_20px_rgba(31,36,33,0.05)] border border-surface-container-highest">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-lg">Dane konta</h1>
+<div class="flex flex-col md:flex-row gap-xl items-start">
+<!-- Avatar Section -->
+<div class="flex flex-col items-center gap-sm w-full md:w-auto">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-high shadow-md relative group">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of a happy, well-groomed Golden Retriever looking directly at the camera. The lighting is soft and natural, emphasizing the dog's shiny coat against a clean, modern, light sage green background. The style is professional pet photography with a friendly, warm aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtUw_y6SsnYg8bchB6pfsPIoKTVoUIkEsK-9a0GMX2LPueUDNc-QU1T_IaCmx9H295QlHzIvoaH8U1K2i1T4i9ijG7Ssk5Tz0AeC08LcB-hoIadVA5jLdNYTDmzCwtk6HKyh321LGxbuqSJq_j7_YM96FJZNbG4G7bxmbqA5QgEzwNwD_i95wakGU4uQnd8KNoDlj8V3hsdNSvCJC2oXUsd1KC2gZXl8lE25W9dUIJOtsLuYw4MFvsCF08rQlsw9nRx8QGuxB8vywX"/>
+<div class="absolute inset-0 bg-on-surface/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-on-primary" data-icon="photo_camera">photo_camera</span>
+</div>
+</div>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md transition-colors bg-transparent border-none">Zmień zdjęcie</button>
+</div>
+<!-- Form Section -->
+<div class="flex-grow w-full max-w-2xl">
+<form class="flex flex-col gap-md">
+<!-- Name Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="fullName">Imię i nazwisko</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm pointer-events-none text-outline">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</span>
+<input class="w-full pl-xl pr-sm py-sm bg-surface rounded-[10px] border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md text-body-md transition-colors placeholder:text-outline-variant" id="fullName" name="fullName" type="text" value="Anna Kowalska"/>
+</div>
+</div>
+<!-- Email Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="email">Adres e-mail</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm pointer-events-none text-outline">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</span>
+<input class="w-full pl-xl pr-sm py-sm bg-surface rounded-[10px] border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md text-body-md transition-colors placeholder:text-outline-variant" id="email" name="email" type="email" value="anna.kowalska@example.com"/>
+</div>
+</div>
+<!-- Phone Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="phone">Telefon</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm pointer-events-none text-outline">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</span>
+<input class="w-full pl-xl pr-sm py-sm bg-surface rounded-[10px] border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md text-body-md transition-colors placeholder:text-outline-variant" id="phone" name="phone" type="tel" value="+48 123 456 789"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex justify-end mt-sm pt-md border-t border-surface-container-highest">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-[10px] hover:bg-primary-container transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="button">
+                                Zapisz zmiany
+                            </button>
+</div>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-surface dark:bg-surface-container-high shadow-[0px_-4px_20px_rgba(31,36,33,0.05)] docked full-width bottom-0 rounded-t-xl fixed bottom-0 w-full z-50 flex justify-around items-center py-2 px-4 scale-95 active:scale-90 transition-transform">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="pets">pets</span>
+<span class="mt-1">Sklep</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="mt-1">Czat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+<span class="mt-1">Koszyk</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="mt-1">Profil</span>
+</a>
+</nav>
+</body></html>

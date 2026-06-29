@@ -1,0 +1,26 @@
+# ---- Build output ----
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+out/
+artifacts/
+
+# ---- User / IDE ----
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ---- Secrets (public repo: never commit) ----
+.env
+appsettings.Development.json
+appsettings.*.local.json
+**/appsettings.Development.json
+**/appsettings.*.local.json
+
+# ---- Misc ----
+*.log
+design-reference/*.zip

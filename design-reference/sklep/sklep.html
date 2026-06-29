@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sklep - PetWorld</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#aad0b1",
+                      "on-surface": "#181d1a",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#161d1b",
+                      "tertiary-container": "#6a716e",
+                      "on-secondary-fixed": "#00210e",
+                      "on-primary-fixed": "#002113",
+                      "on-primary-container": "#d0ffe3",
+                      "primary-fixed-dim": "#88d6af",
+                      "surface-tint": "#176b4b",
+                      "primary-container": "#2e7d5b",
+                      "background": "#f7faf5",
+                      "tertiary": "#515956",
+                      "surface-container-highest": "#e0e3df",
+                      "tertiary-fixed-dim": "#c1c8c4",
+                      "secondary-fixed": "#c5eccc",
+                      "inverse-primary": "#88d6af",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#f7faf5",
+                      "inverse-surface": "#2d312e",
+                      "error-container": "#ffdad6",
+                      "primary-fixed": "#a4f3ca",
+                      "surface-dim": "#d7dbd6",
+                      "on-secondary-fixed-variant": "#2c4e36",
+                      "secondary-container": "#c2e9c9",
+                      "on-tertiary-container": "#eff6f2",
+                      "surface": "#f7faf5",
+                      "surface-container-high": "#e6e9e4",
+                      "on-background": "#181d1a",
+                      "tertiary-fixed": "#dde4e0",
+                      "on-tertiary-fixed-variant": "#414846",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#e0e3df",
+                      "surface-container": "#ebefea",
+                      "outline-variant": "#bec9c1",
+                      "inverse-on-surface": "#eef2ed",
+                      "surface-container-low": "#f1f5ef",
+                      "on-primary-fixed-variant": "#005236",
+                      "on-error": "#ffffff",
+                      "primary": "#096444",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-container": "#486a51",
+                      "on-error-container": "#93000a",
+                      "secondary": "#43664d",
+                      "outline": "#6f7a72",
+                      "on-surface-variant": "#3f4943"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "md": "24px",
+                      "container-max": "1280px",
+                      "base": "8px",
+                      "lg": "48px",
+                      "gutter": "24px",
+                      "xl": "80px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+          }
+          .icon-fill {
+              font-variation-settings: 'FILL' 1;
+          }
+          
+          /* Custom Scrollbar for Filters */
+          .custom-scrollbar::-webkit-scrollbar {
+              width: 6px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-track {
+              background: #f1f5ef;
+              border-radius: 4px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+              background: #bec9c1;
+              border-radius: 4px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+              background: #88d6af;
+          }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar (Web) -->
+<header class="hidden md:block shadow-sm bg-surface dark:bg-surface-dim sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-md h-16 max-w-container-max mx-auto transition-all duration-200 ease-in-out">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+                PetWorld
+            </div>
+<nav class="flex gap-lg">
+<!-- Implicitly mapping "Sklep" to this nav, though not in JSON links, it's the intent. Will add it to align with intent, or just show Czat/Historia. Following JSON strictly for links array, but intent says Sklep is active. Since "Sklep" isn't in top nav JSON links, let's just render JSON links. Wait, the prompt says "Standard top navigation. Heading 'Sklep'". JSON TopNavBar links: ["Czat", "Historia"]. I will render them, but since we are on Sklep, none of them are active. Wait, BottomNav has "Sklep". -->
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-primary-container font-label-md text-label-md" href="#">Czat</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-primary-container font-label-md text-label-md" href="#">Historia</a>
+</nav>
+<div class="flex items-center gap-md">
+<!-- Search hidden as per JSON, trailing icon: account_circle -->
+<button aria-label="Logo sklepu PetWorld" class="text-on-surface-variant hover:text-primary-container transition-all duration-200 ease-in-out">
+<span class="material-symbols-outlined text-[24px]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-container-max mx-auto w-full px-md md:px-gutter py-lg flex flex-col md:flex-row gap-lg">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0 bg-surface rounded-xl p-md shadow-[0px_4px_20px_rgba(31,36,33,0.05)] border border-surface-container-high h-fit">
+<h2 class="font-headline-md text-headline-md mb-md text-primary">Filtruj</h2>
+<div class="mb-lg">
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-sm uppercase tracking-wider">Kategorie</h3>
+<div class="space-y-sm custom-scrollbar max-h-60 overflow-y-auto pr-2">
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded-[4px] border-outline-variant text-primary focus:ring-primary w-5 h-5 transition-colors group-hover:border-primary" type="checkbox"/>
+<span class="text-on-surface group-hover:text-primary transition-colors">Karma dla psów</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded-[4px] border-outline-variant text-primary focus:ring-primary w-5 h-5 transition-colors group-hover:border-primary" type="checkbox"/>
+<span class="text-on-surface group-hover:text-primary transition-colors">Karma dla kotów</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded-[4px] border-outline-variant text-primary focus:ring-primary w-5 h-5 transition-colors group-hover:border-primary" type="checkbox"/>
+<span class="text-on-surface group-hover:text-primary transition-colors">Akwarystyka</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded-[4px] border-outline-variant text-primary focus:ring-primary w-5 h-5 transition-colors group-hover:border-primary" type="checkbox"/>
+<span class="text-on-surface group-hover:text-primary transition-colors">Akcesoria dla kotów</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded-[4px] border-outline-variant text-primary focus:ring-primary w-5 h-5 transition-colors group-hover:border-primary" type="checkbox"/>
+<span class="text-on-surface group-hover:text-primary transition-colors">Zabawki dla psów</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded-[4px] border-outline-variant text-primary focus:ring-primary w-5 h-5 transition-colors group-hover:border-primary" type="checkbox"/>
+<span class="text-on-surface group-hover:text-primary transition-colors">Gryzonie</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded-[4px] border-outline-variant text-primary focus:ring-primary w-5 h-5 transition-colors group-hover:border-primary" type="checkbox"/>
+<span class="text-on-surface group-hover:text-primary transition-colors">Akcesoria dla psów</span>
+</label>
+</div>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-sm uppercase tracking-wider">Cena</h3>
+<div class="px-2">
+<input class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" max="1000" min="0" type="range"/>
+<div class="flex justify-between mt-xs font-label-md text-label-md text-on-surface-variant">
+<span>0 zł</span>
+<span>1000 zł</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-grow">
+<!-- Header & Controls -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-lg gap-md">
+<h1 class="font-display-lg text-display-lg text-primary">Sklep</h1>
+<div class="flex w-full md:w-auto gap-md">
+<div class="relative flex-grow md:w-64">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-sm py-2 bg-surface border border-outline-variant rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-outline font-body-md text-on-surface" placeholder="Szukaj produktów..." type="text"/>
+</div>
+<div class="relative min-w-[160px]">
+<select class="w-full appearance-none bg-surface border border-outline-variant rounded-lg px-sm py-2 pr-8 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md text-on-surface cursor-pointer">
+<option>Domyślnie</option>
+<option>Cena rosnąco</option>
+<option>Cena malejąco</option>
+<option>Popularne</option>
+</select>
+<span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md pb-24 md:pb-0">
+<!-- Product Card 1 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-quality studio product shot of Royal Canin Adult Dog food bag, 15kg. Placed on a pristine white minimalist surface with soft, diffused daylight creating elegant shadows. Clean, modern aesthetic with a focus on premium pet nutrition branding. Subtle sage green tones in the backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1osnD2tyFVTUUtoQBluC5NiWJ_-HPzQDYWGF2-Tx05Mtd37vDDJDJ2QVhl2L65JIBawfREA6A8wupHxikIqRU1fhCeHcVAcR3ZActqHpghZylHptCK11kMp-RULi8EDfY_2tDLGmfKg7ij8zrARO_7UnAW5uoCCsqcte-HILqAd2WcXf5CiZDQxwxKGmPD215swXX5F1zqaj49bH6rJJfujkjmyd6tjKXPGn3Vd0egnQmTFqzTNrPqlj2EOFn-AUFQDGDMl7DcwSh"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Karma dla psów
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Royal Canin Adult Dog 15kg</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">289 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, minimalist product photograph of Whiskas Adult Chicken 7kg cat food. Soft, natural lighting on a crisp white background with a faint, warm undertone. High resolution, conveying a sense of healthy, reliable companionship for pets." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqSrQYtEUZwQYmvKj6gX-1Fr0xS_TZK2mnX8GafSHy5LZUe5W90eCqQCZgg383NSgCYUbeGFnmB1zG1AgDAbI2gyK222mU5uYLvn8y5at6Dgmnya5U6BHRSid4aZGJaWt6DRAVkvpcnfvtwN2IscCUv2Vvt1jg_pbGs2M5GwPrSztRpzowSVL4dv4DtW5QjAIqb3IdTlN1JANevMuL4_IZg5Hu6139jQz7MdyJhwj5KJxSTJ8H8z550BqeKeR-hneCKNMa5MD2Wh8V"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Karma dla kotów
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Whiskas Adult Kurczak 7kg</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">129 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist, modern product shot of Tetra AquaSafe 500ml water conditioner bottle. Placed on a reflective surface suggesting clean water, illuminated by soft, cool white light. A sense of purity and modern wellness for aquariums. Minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvLwFLdM9r9zrLPeyDc1yp5_qABRq8BWRKcEsBXMuvi3S4-QrxkKpITu6VrIZkhXZvU-hCLyvOvYQrvA1WUX4JF3vRZEcD7mV5h0hYMt8CbXR2JZFoSsGToCgQvC80_cB5phUjRN32Zgw0toJjmD0QC5PB0WHSmyL7dwybqLIF8hBWbwtCntI53HCr-dVVym_5XI4ujCBFGV3rUk4lutn8gErDFvaHt8sDdS9-vr08uyCne0HHVNW4iBbKd-eFJEoVCxaiLZSQRYoS"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Akwarystyka
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Tetra AquaSafe 500ml</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">45 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautifully lit studio shot of a Trixie XL 150cm cat scratching post. The photo emphasizes the high-quality textures of the sisal rope and plush fabric. Soft, inviting lighting in a modern home-like setting with generous whitespace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB8snR10cWSGYdE9YOLeKS-9h8pgmHAqLeYyeLfnsf4QI5Ho37Cj2EjsGnAdf0snJDmR9fyM57_d3efvM0pjdQdiHKI0qyBGUNIi5uq9qFoFvgEL3u4ycfi79i408wygZH0uQ-npD2I1jS1Rz3QIILDOFt2p6q49fnDTl0F90UlE6ios5KQ32HTLTuAkcXcP0gCF5dwAct4lVV7Bvzt1NaIzD8MlSaExuhjM5XjJwQhHT_WbOW9rP12S8ImhdhNcd85T_9ulqTMDns"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Akcesoria dla kotów
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Trixie Drapak XL 150cm</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">399 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vivid, sharp product photograph of a red Kong Classic Large dog toy. The toy sits on a clean, soft sage green background. Lighting highlights the durable rubber texture. Modern, minimalist and playful aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoqAw0qh8oBQdRbpta2H4jR99gZ-7wV5PPVRujKb7oAVWwB3vh3zKQZw_x0VGfb6o2hEKnNSJ9lXEsJvYpgW_k6vceORSUEUZeGOkN1so-KNi7vhlEb8NuanUClys1E17ksGXp3Oa1PTtCiQiJHegMUu07E4JnjGQz7EfvPmviT2Nl7J31JQ6hCTJ1iu_f-lTQAY1T1w7eLfWcWgkk6XU8VrEgxZNJjJA6_WncHMHVUWb9U1e0CrKKj0-jFxz8fWZZzf2FDqlO0lmI"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Zabawki dla psów
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Kong Classic Large</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">69 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A bright, clean product shot of a Ferplast hamster cage. Displayed against a crisp white background with soft, diffused lighting. The image emphasizes a clean, safe, and modern environment for small pets." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLVuadySTBy91A5NryODtuOPuGcKjRiRAIbMAN1f-w8o-KUlP8LVeNjVslmNNlcS8CfvelVZ0LFjux0V6zbzuuK1Xtago3B51XopKFJ5mhyrafEVxwBDz9zUigDiJmTzSfuo1iiZPrfYzhnzo7VzFMOB7mFezTj4OkHZKl6XiNH9Z4E3T48uNpGrbWHAU_0bRqgFuj0ALWfD1xiDWTip7a4HYeme4TZnHXKB2EWrm7dcAUmCBDiF5keKWqY8eZvDluSpyv3E9Tia3I"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Gryzonie
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Ferplast Klatka dla chomika</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">189 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 7 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek product photo of a Flexi automatic dog leash (8m). Highlighting the ergonomic design and modern materials. Placed on a minimalist surface with subtle shadows, conveying reliability and quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnsgquP-psN-velYIyzMxsIo_eD13B3nlxX0YfPdgtAvh4nlqyvldLqNoPtkC6G-O_BZxnOeoCHDUnTcsxFhyvdsISIh7WeyfIcXdaTVuxqxbIAB0FpwFH19JYUPAHBExX_atIgZYs5ljqPN-ec62KxxkaZH3PSFZ3H_TeU_YZMzJ7vnnnIolhTE8q9I40nOTX0wKssA7_LrHoxs288q--MqOwCdh0njX3qpaTQ8IiI2PmcGiEBXtojt22SLDCik4gq0FhHyuulvob"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Akcesoria dla psów
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Flexi Smycz automatyczna 8m</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">119 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 8 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Premium product photography of Brit Premium Kitten 8kg bag. Soft, diffused lighting enhances the package details against a minimalist, warm off-white background. Evokes a sense of modern wellness and high-quality nutrition for kittens." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALFXeA1qs2bFQCYw4WO1Xi4CU76khzamT0pl_OiQOG4hdwDbLmUjXM3IKPBdNCOXVu3E8SImjxK2uGoMYWEHxnITQCIkutYQXilo6cNeMxKfv94g4gwCYZHRbeCwcIIF-OxF-RNwQUcZerup4eDtO1nlxGaPclnjyHcLa3ihE-hCFcuKKt2YUB9ud-35upJBuGGB_tt-FJ67vaAbT6pBTnkNNgvGO3QUKod0y5Fl6Ax9jaEHF5Wk7m-kt80WxLvo5pO-nnm9BheWJz"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Karma dla kotów
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Brit Premium Kitten 8kg</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">159 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 9 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A technical yet elegant studio shot of JBL ProFlora CO2 Set for aquariums. Clean, precise lighting highlighting the metallic components. Placed on a minimalist surface, conveying high-end technology and healthy aquatic environments." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-QKugr_FdM3laOlNeGRVhhfkIcjqk7hzAgY63aG4a5F_z3XJQ-Fb6oL-lpRu93yBqzg4B5nMrNIbe_UvRpo1JH8iwizGMW19C_1ZDg6aqLBLltpw4yRXWYMfr1GdMF8UDNnFQvtKZmhyfBWCefepPY7UcvKD6ffjSbYhQeY1YyRTEewtMbx2BnN1JaRoTUID5HfE0dJF5jAfLyQAZ2m3T4Too-CErf1o-G2CwIOqg9RZ6utQJScYly1byWBCSDfGcQenVKYNhU2sR"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Akwarystyka
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">JBL ProFlora CO2 Set</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">549 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 10 -->
+<div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(31,36,33,0.05)] overflow-hidden flex flex-col group border border-surface-container-high hover:border-primary-fixed-dim transition-all duration-300">
+<div class="relative h-48 w-full bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautifully textured product shot of Vitapol Hay for rabbits (1kg) in clear packaging. Natural, warm sunlight filtering in to highlight the fresh green and golden hues of the hay. Minimalist composition with a focus on natural wellness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfvlYSmq8YTCMLE5QghiaMsxe2_MOiE9ouUS-bhCji3L3hpDQp8iPoayfL46fVoK_08MHNzEDVcq7aQ5xA9nY3yvUqewNGysBWqFbfX86OkDP1ChWDuvMuyEXJfRc2zsydA4dW5YYdsSZ6R2Un_VgjwDDNkdnA0Ta7u78xAt4CJTAyWzodluqnZkFk7LuKneMnV2unq6lQwD6sb2hyBhiDJCcfpWObeBK-kWh-nX3CCnZcOLOv8VBV_eRI3SxznT9SiquLic-xORPM"/>
+<div class="absolute top-sm left-sm bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-full font-label-md text-[12px] text-primary border border-primary/20">
+                            Gryzonie
+                        </div>
+</div>
+<div class="p-md flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs leading-tight flex-grow line-clamp-2">Vitapol Siano dla królików 1kg</h3>
+<div class="mt-auto pt-md flex items-center justify-between">
+<span class="font-headline-md text-[20px] font-bold text-primary">25 zł</span>
+<button aria-label="Dodaj do koszyka" class="bg-surface border border-primary text-primary hover:bg-primary hover:text-on-primary w-10 h-10 rounded-[10px] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center py-2 px-4 bg-surface dark:bg-surface-container-high shadow-[0px_-4px_20px_rgba(31,36,33,0.05)] rounded-t-xl">
+<!-- "Sklep" is active -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined icon-fill">pets</span>
+<span class="font-label-md text-label-md mt-xs">Sklep</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-md text-label-md mt-xs">Czat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span class="font-label-md text-label-md mt-xs">Koszyk</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md mt-xs">Profil</span>
+</a>
+</nav>
+<!-- AI Assistant Floating Bubble (Desktop) -->
+<button aria-label="Otwórz asystenta AI" class="hidden md:flex fixed bottom-8 right-8 bg-primary hover:bg-primary-container text-on-primary w-14 h-14 rounded-full shadow-lg items-center justify-center transition-all duration-300 hover:scale-105 z-40 group">
+<span class="material-symbols-outlined icon-fill group-hover:animate-pulse">smart_toy</span>
+</button>
+</body></html>
