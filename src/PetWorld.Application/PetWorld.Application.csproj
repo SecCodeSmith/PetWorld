@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Application: use-case services, abstractions (interfaces) and DTOs.
+       References Domain only. No infrastructure packages (EF, MAF, Identity)
+       are allowed here — those are implementation details. -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\PetWorld.Domain\PetWorld.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

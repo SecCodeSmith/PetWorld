@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Domain: the core of the onion. Pure C#, ZERO external dependencies and
+       no project references. Entities and domain rules only. -->
+
+</Project>
