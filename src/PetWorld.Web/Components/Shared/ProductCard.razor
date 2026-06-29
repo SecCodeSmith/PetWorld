@@ -1,0 +1,32 @@
+@inject ICartService Cart
+
+<div class="product-card">
+    <a class="product-card__media" href="@Url" aria-label="@Product.Name">
+        <Icon Name="paw" Size="64" />
+    </a>
+    <div class="product-card__body">
+        <a class="product-card__title" href="@Url">@Product.Name</a>
+        <span class="product-card__cat">@Product.Category</span>
+    </div>
+    <div class="product-card__foot">
+        <span class="product-card__price">@PriceFormatter.ToZl(Product.PriceGr)</span>
+        <button class="btn btn--primary" @onclick="AddAsync">@AddLabel</button>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Product Product { get; set; } = default!;
+    [Parameter] public string AddLabel { get; set; } = "Do koszyka";
+    [Parameter] public EventCallback OnAdded { get; set; }
+
+    private string Url => $"/produkt/{Product.Id}";
+
+    private async Task AddAsync()
+    {
+        await Cart.AddAsync(Product.Id);
+        if (OnAdded.HasDelegate)
+        {
+            await OnAdded.InvokeAsync();
+        }
+    }
+}

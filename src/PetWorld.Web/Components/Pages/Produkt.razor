@@ -1,0 +1,88 @@
+@page "/produkt/{Id:int}"
+@rendermode InteractiveServer
+@inject IProductRepository Products
+@inject ICartService Cart
+@inject NavigationManager Nav
+
+<PageTitle>@(_product?.Name ?? "Produkt") — PetWorld</PageTitle>
+
+<div class="page">
+    @if (_loaded && _product is null)
+    {
+        <h1 class="headline-lg">Nie znaleziono produktu</h1>
+        <p class="muted">Ten produkt nie istnieje lub został usunięty.</p>
+        <a class="btn btn--primary" href="/sklep">Wróć do sklepu</a>
+    }
+    else if (_product is not null)
+    {
+        <nav class="breadcrumb">
+            <a href="/sklep"><Icon Name="home" Size="16" /></a>
+            <Icon Name="chevron-right" Size="14" />
+            <a href="/sklep">Sklep</a>
+            <Icon Name="chevron-right" Size="14" />
+            <span>@_product.Category</span>
+        </nav>
+
+        <div class="pdp">
+            <div class="pdp__media">
+                <Icon Name="paw" Size="160" />
+            </div>
+            <div class="pdp__info">
+                <span class="pill"><Icon Name="tag" Size="14" /> @_product.Category</span>
+                <h1 class="headline-lg">@_product.Name</h1>
+                <span class="pdp__price">@PriceFormatter.ToZl(_product.PriceGr)</span>
+                <p class="muted">@_product.Description</p>
+
+                <div class="pdp__actions">
+                    <QuantityStepper @bind-Value="_quantity" />
+                    <button class="btn btn--primary btn--lg" @onclick="AddToCart">
+                        <Icon Name="cart" Size="18" /> Dodaj do koszyka
+                    </button>
+                    <button class="btn btn--secondary btn--lg" @onclick="BuyNow">Kup teraz</button>
+                </div>
+
+                @if (_added)
+                {
+                    <div class="success-box">Dodano do koszyka (@_quantity szt.).</div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private Product? _product;
+    private bool _loaded;
+    private int _quantity = 1;
+    private bool _added;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _product = await Products.GetByIdAsync(Id);
+        _loaded = true;
+    }
+
+    private async Task AddToCart()
+    {
+        if (_product is null)
+        {
+            return;
+        }
+
+        await Cart.AddAsync(_product.Id, _quantity);
+        _added = true;
+    }
+
+    private async Task BuyNow()
+    {
+        if (_product is null)
+        {
+            return;
+        }
+
+        await Cart.AddAsync(_product.Id, _quantity);
+        Nav.NavigateTo("/koszyk");
+    }
+}

@@ -1,0 +1,25 @@
+@implements IDisposable
+@inject ICartService Cart
+
+@if (_count > 0)
+{
+    <span class="cart-badge">@_count</span>
+}
+
+@code {
+    private int _count;
+
+    protected override void OnInitialized()
+    {
+        _count = Cart.ItemCount;
+        Cart.Changed += OnCartChanged;
+    }
+
+    private void OnCartChanged() => InvokeAsync(() =>
+    {
+        _count = Cart.ItemCount;
+        StateHasChanged();
+    });
+
+    public void Dispose() => Cart.Changed -= OnCartChanged;
+}

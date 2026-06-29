@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- Web: Blazor Server (interactive server). References Application for the
+       abstractions/DTOs used by components. Infrastructure is referenced ONLY so
+       the composition root (Program.cs) can register the concrete implementations;
+       no .razor component touches an Infrastructure type. -->
+
+  <ItemGroup>
+    <!-- QuickGrid for the history table (UI-only; not an Infrastructure concern). -->
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PetWorld.Application\PetWorld.Application.csproj" />
+    <ProjectReference Include="..\PetWorld.Infrastructure\PetWorld.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

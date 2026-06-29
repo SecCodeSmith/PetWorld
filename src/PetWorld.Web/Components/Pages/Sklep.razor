@@ -1,0 +1,119 @@
+@page "/sklep"
+@rendermode InteractiveServer
+@inject IProductRepository Products
+
+<PageTitle>Sklep — PetWorld</PageTitle>
+
+<div class="page">
+    <h1 class="headline-lg mb-md">Sklep</h1>
+
+    @if (_all is null)
+    {
+        <p class="muted">Ładowanie produktów…</p>
+    }
+    else
+    {
+        <div class="shop-layout">
+            <aside class="shop-sidebar">
+                <div class="card card--pad filter-group">
+                    <h3><Icon Name="sliders" Size="16" /> Kategorie</h3>
+                    <div class="chip-list">
+                        <button class="chip @(_category is null ? "chip--active" : "")"
+                                @onclick="() => SetCategory(null)">Wszystkie</button>
+                        @foreach (var category in _categories)
+                        {
+                            <button class="chip @(_category == category ? "chip--active" : "")"
+                                    @onclick="() => SetCategory(category)">@category</button>
+                        }
+                    </div>
+                </div>
+            </aside>
+
+            <section class="shop-main">
+                <div class="shop-toolbar">
+                    <input class="input" placeholder="Szukaj produktów…"
+                           @bind="_search" @bind:event="oninput" aria-label="Szukaj produktów" />
+                    <select class="select" style="max-width:200px" @bind="_sort">
+                        <option value="default">Domyślnie</option>
+                        <option value="price-asc">Cena rosnąco</option>
+                        <option value="price-desc">Cena malejąco</option>
+                        <option value="name">Nazwa A-Z</option>
+                    </select>
+                </div>
+
+                <p class="muted mb-md">Znaleziono @Filtered.Count produktów</p>
+
+                @if (Filtered.Count == 0)
+                {
+                    <div class="card card--pad text-center muted">Brak produktów spełniających kryteria.</div>
+                }
+                else
+                {
+                    <div class="product-grid">
+                        @foreach (var product in Filtered)
+                        {
+                            <ProductCard Product="product" />
+                        }
+                    </div>
+                }
+            </section>
+        </div>
+    }
+</div>
+
+@code {
+    [SupplyParameterFromQuery(Name = "q")]
+    public string? Query { get; set; }
+
+    private IReadOnlyList<Product>? _all;
+    private IReadOnlyList<string> _categories = [];
+    private string? _category;
+    private string _search = string.Empty;
+    private string _sort = "default";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _all = await Products.GetAllAsync();
+        _categories = _all.Select(p => p.Category).Distinct().OrderBy(c => c).ToList();
+        if (!string.IsNullOrWhiteSpace(Query))
+        {
+            _search = Query.Trim();
+        }
+    }
+
+    private void SetCategory(string? category) => _category = category;
+
+    private List<Product> Filtered
+    {
+        get
+        {
+            if (_all is null)
+            {
+                return [];
+            }
+
+            IEnumerable<Product> query = _all;
+
+            if (_category is not null)
+            {
+                query = query.Where(p => p.Category == _category);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_search))
+            {
+                query = query.Where(p => p.Name.Contains(_search, StringComparison.OrdinalIgnoreCase)
+                                         || p.Category.Contains(_search, StringComparison.OrdinalIgnoreCase));
+            }
+
+            query = _sort switch
+            {
+                "price-asc" => query.OrderBy(p => p.PriceGr),
+                "price-desc" => query.OrderByDescending(p => p.PriceGr),
+                "name" => query.OrderBy(p => p.Name),
+                _ => query.OrderBy(p => p.Id),
+            };
+
+            return query.ToList();
+        }
+    }
+}

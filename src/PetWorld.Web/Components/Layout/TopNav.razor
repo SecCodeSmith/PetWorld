@@ -1,0 +1,49 @@
+@* Shared navigation, identical on every page. Static-SSR so the logout form's
+   antiforgery token and the AuthorizeView render server-side; only the cart count
+   badge is an interactive island. *@
+
+<header class="topnav">
+    <div class="topnav__inner">
+        <a class="brand" href="/">
+            <Icon Name="paw" Size="28" />
+            PetWorld
+        </a>
+
+        <form class="nav-search" method="get" action="/sklep">
+            <span class="nav-search__icon"><Icon Name="search" Size="18" /></span>
+            <input name="q" placeholder="Szukaj..." aria-label="Szukaj produktów" />
+        </form>
+
+        <nav class="nav-links">
+            <NavLink class="nav-link" href="/sklep" ActiveClass="nav-link--active">Sklep</NavLink>
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" ActiveClass="nav-link--active">Czat</NavLink>
+            <NavLink class="nav-link" href="/koszyk" ActiveClass="nav-link--active">Koszyk</NavLink>
+            <NavLink class="nav-link" href="/historia" ActiveClass="nav-link--active">Historia</NavLink>
+        </nav>
+
+        <div class="nav-actions">
+            <a class="icon-btn" href="/koszyk" aria-label="Koszyk">
+                <Icon Name="cart" Size="22" />
+                <CartBadge @rendermode="InteractiveServer" />
+            </a>
+
+            <AuthorizeView>
+                <Authorized>
+                    <a class="avatar" href="/profil" title="Profil">@Initial(context.User.Identity?.Name)</a>
+                    <form class="logout-form" method="post" action="/account/logout">
+                        <AntiforgeryToken />
+                        <button type="submit" class="btn btn--ghost">Wyloguj</button>
+                    </form>
+                </Authorized>
+                <NotAuthorized>
+                    <a class="btn btn--secondary" href="/logowanie">Zaloguj się</a>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    </div>
+</header>
+
+@code {
+    private static string Initial(string? name) =>
+        string.IsNullOrWhiteSpace(name) ? "?" : name.Trim()[0].ToString().ToUpperInvariant();
+}

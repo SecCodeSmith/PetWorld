@@ -1,0 +1,19 @@
+<div class="stepper">
+    <button class="stepper__btn" @onclick="Decrease" aria-label="Zmniejsz ilość">
+        <Icon Name="minus" Size="16" />
+    </button>
+    <span class="stepper__val">@Value</span>
+    <button class="stepper__btn" @onclick="Increase" aria-label="Zwiększ ilość">
+        <Icon Name="plus" Size="16" />
+    </button>
+</div>
+
+@code {
+    [Parameter] public int Value { get; set; } = 1;
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+    [Parameter] public int Min { get; set; } = 1;
+
+    private Task Increase() => ValueChanged.InvokeAsync(Value + 1);
+
+    private Task Decrease() => ValueChanged.InvokeAsync(Math.Max(Min, Value - 1));
+}

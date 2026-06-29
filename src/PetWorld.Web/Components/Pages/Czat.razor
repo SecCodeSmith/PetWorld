@@ -1,0 +1,148 @@
+@page "/"
+@rendermode InteractiveServer
+@inject IProductAdvisorService Advisor
+@inject ILogger<Czat> Logger
+
+<PageTitle>Czat — PetWorld</PageTitle>
+
+<div class="page page--narrow chat">
+    <div class="chat__intro">
+        <h1 class="display-lg">Zapytaj naszego doradcę</h1>
+        <p class="body-lg muted">Opisz swojego pupila, a my dobierzemy produkty.</p>
+    </div>
+
+    <div class="card card--pad ask-card">
+        <label class="field" for="question">
+            <span class="label">Twoje pytanie</span>
+            <textarea id="question" class="textarea"
+                      placeholder="Np. Mam młodego kota, jaką karmę polecacie?"
+                      @bind="_question" @bind:event="oninput"
+                      disabled="@(_phase == Phase.Loading)"></textarea>
+        </label>
+        <div class="ask-card__actions">
+            <button class="btn btn--primary btn--lg" @onclick="SubmitAsync"
+                    disabled="@(_phase == Phase.Loading || string.IsNullOrWhiteSpace(_question))">
+                @if (_phase == Phase.Loading)
+                {
+                    <span class="spinner"></span>
+                    <span>Analizuję…</span>
+                }
+                else
+                {
+                    <span>Wyślij</span>
+                    <Icon Name="send" Size="18" />
+                }
+            </button>
+        </div>
+    </div>
+
+    @if (_submittedQuestion is not null)
+    {
+        <div class="bubble-user">@_submittedQuestion</div>
+    }
+
+    @if (_phase == Phase.Loading)
+    {
+        <div class="card card--pad answer-card">
+            <div class="answer-card__head">
+                <div class="advisor">
+                    <span class="advisor__avatar"><Icon Name="robot" Size="22" /></span>
+                    <span class="advisor__name">Doradca PetWorld</span>
+                </div>
+            </div>
+            <div>
+                <div class="skeleton skeleton-line" style="width:35%"></div>
+                <div class="skeleton skeleton-line"></div>
+                <div class="skeleton skeleton-line" style="width:95%"></div>
+                <div class="skeleton skeleton-line" style="width:88%"></div>
+                <div class="skeleton skeleton-line" style="width:60%"></div>
+            </div>
+            <p class="muted text-center" style="font-size:13px">
+                Doradca analizuje pytanie i sprawdza rekomendacje — to może potrwać kilkadziesiąt sekund.
+            </p>
+        </div>
+    }
+    else if (_error is not null)
+    {
+        <div class="card card--pad answer-card">
+            <div class="form-error-box">@_error</div>
+        </div>
+    }
+    else if (_result is not null)
+    {
+        <div class="card card--pad answer-card">
+            <div class="answer-card__head">
+                <div class="advisor">
+                    <span class="advisor__avatar"><Icon Name="robot" Size="22" /></span>
+                    <span class="advisor__name">Doradca PetWorld</span>
+                </div>
+                <IterationBadge Count="_result.Iterations" />
+            </div>
+            <div class="answer-text">
+                @foreach (var paragraph in Paragraphs(_result.Answer))
+                {
+                    <p>@paragraph</p>
+                }
+            </div>
+            @if (_result.RecommendedProducts.Count > 0)
+            {
+                <p style="font-weight:600">Polecane produkty:</p>
+                <div class="rec-grid">
+                    @foreach (var product in _result.RecommendedProducts)
+                    {
+                        <ProductCard Product="product" />
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private enum Phase { Empty, Loading, Answered }
+
+    private Phase _phase = Phase.Empty;
+    private string? _question;
+    private string? _submittedQuestion;
+    private AdvisorResult? _result;
+    private string? _error;
+
+    private async Task SubmitAsync()
+    {
+        var question = _question?.Trim();
+        if (string.IsNullOrWhiteSpace(question) || _phase == Phase.Loading)
+        {
+            return;
+        }
+
+        _submittedQuestion = question;
+        _result = null;
+        _error = null;
+        _phase = Phase.Loading;
+
+        try
+        {
+            // The Writer/Critic loop can take 30-60s. We are inside an async event
+            // handler, so the circuit stays responsive and shows the loading state.
+            _result = await Advisor.GetAdviceAsync(question);
+        }
+        catch (InvalidOperationException ex)
+        {
+            // e.g. missing OPENAI_API_KEY — surface the friendly message as-is.
+            _error = ex.Message;
+            Logger.LogWarning(ex, "Advisor unavailable.");
+        }
+        catch (Exception ex)
+        {
+            _error = "Wystąpił błąd podczas generowania odpowiedzi. Spróbuj ponownie.";
+            Logger.LogError(ex, "Advisor failed.");
+        }
+        finally
+        {
+            _phase = Phase.Answered;
+        }
+    }
+
+    private static IEnumerable<string> Paragraphs(string text) =>
+        text.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+}

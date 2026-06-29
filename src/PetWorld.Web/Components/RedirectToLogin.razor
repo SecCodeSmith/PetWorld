@@ -1,0 +1,11 @@
+@inject NavigationManager Nav
+
+@code {
+    // Sends anonymous visitors of an [Authorize] page to the login screen,
+    // preserving where they were trying to go.
+    protected override void OnInitialized()
+    {
+        var returnUrl = Nav.ToBaseRelativePath(Nav.Uri);
+        Nav.NavigateTo($"/logowanie?returnUrl={Uri.EscapeDataString(returnUrl)}");
+    }
+}

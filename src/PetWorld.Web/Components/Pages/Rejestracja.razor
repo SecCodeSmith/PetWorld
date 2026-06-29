@@ -1,0 +1,99 @@
+@page "/rejestracja"
+@inject IAuthService Auth
+@inject NavigationManager Nav
+
+@* Static-SSR component: real POST so UserManager creates the user and SignInManager
+   sets the cookie. *@
+
+<PageTitle>Załóż konto — PetWorld</PageTitle>
+
+<div class="page">
+    <div class="auth-wrap">
+        <div class="card auth-card">
+            <h1 class="headline-lg mb-md">Załóż konto</h1>
+
+            @if (_error is not null)
+            {
+                <div class="form-error-box mb-md">@_error</div>
+            }
+
+            <EditForm Model="Input" FormName="register" OnValidSubmit="HandleRegisterAsync" method="post">
+                <DataAnnotationsValidator />
+
+                <div class="field">
+                    <label for="name">Imię</label>
+                    <InputText id="name" class="input" @bind-Value="Input.DisplayName" autocomplete="name" />
+                    <ValidationMessage For="() => Input.DisplayName" class="field-error" />
+                </div>
+
+                <div class="field">
+                    <label for="email">Adres e-mail</label>
+                    <InputText id="email" class="input" @bind-Value="Input.Email" autocomplete="username" />
+                    <ValidationMessage For="() => Input.Email" class="field-error" />
+                </div>
+
+                <div class="field">
+                    <label for="password">Hasło</label>
+                    <InputText id="password" type="password" class="input" @bind-Value="Input.Password" autocomplete="new-password" />
+                    <ValidationMessage For="() => Input.Password" class="field-error" />
+                </div>
+
+                <div class="field">
+                    <label for="confirm">Powtórz hasło</label>
+                    <InputText id="confirm" type="password" class="input" @bind-Value="Input.ConfirmPassword" autocomplete="new-password" />
+                    <ValidationMessage For="() => Input.ConfirmPassword" class="field-error" />
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--block btn--lg mt-md">Załóż konto</button>
+            </EditForm>
+
+            <p class="auth-switch">Masz już konto? <a href="/logowanie">Zaloguj się</a></p>
+        </div>
+
+        <div class="auth-aside">
+            <Icon Name="paw" Size="56" />
+            <h2 class="headline-lg">Dołącz do PetWorld</h2>
+            <p>Załóż konto, aby zapisywać historię rozmów i szybciej finalizować zakupy.</p>
+        </div>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private RegisterInput Input { get; set; } = default!;
+
+    private string? _error;
+
+    protected override void OnInitialized() => Input ??= new();
+
+    private async Task HandleRegisterAsync()
+    {
+        var result = await Auth.RegisterAsync(Input.Email, Input.Password, Input.DisplayName);
+        if (result.Succeeded)
+        {
+            Nav.NavigateTo("/");
+        }
+        else
+        {
+            _error = result.Error;
+        }
+    }
+
+    private sealed class RegisterInput
+    {
+        [Required(ErrorMessage = "Podaj imię.")]
+        public string DisplayName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Podaj adres e-mail.")]
+        [EmailAddress(ErrorMessage = "Nieprawidłowy adres e-mail.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Podaj hasło.")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Hasło musi mieć co najmniej 6 znaków.")]
+        public string Password { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Powtórz hasło.")]
+        [Compare(nameof(Password), ErrorMessage = "Hasła nie są identyczne.")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+}

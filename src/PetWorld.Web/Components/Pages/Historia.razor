@@ -1,0 +1,50 @@
+@page "/historia"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject IChatHistoryRepository History
+
+<PageTitle>Historia rozmów — PetWorld</PageTitle>
+
+<div class="page">
+    <h1 class="headline-lg mb-md">Historia rozmów</h1>
+
+    @if (_items is null)
+    {
+        <p class="muted">Ładowanie…</p>
+    }
+    else if (_items.Count == 0)
+    {
+        <div class="card card--pad empty-state">
+            <Icon Name="robot" Size="64" />
+            <h2 class="headline-md">Brak rozmów</h2>
+            <p class="muted">Twoje pytania do doradcy pojawią się tutaj.</p>
+            <a class="btn btn--primary" href="/">Zadaj pierwsze pytanie</a>
+        </div>
+    }
+    else
+    {
+        <div class="card card--pad history-table">
+            <QuickGrid Items="_items.AsQueryable()">
+                <PropertyColumn Property="@(i => i.CreatedAt)" Title="Data" Format="dd.MM.yyyy HH:mm" Sortable="true" />
+                <TemplateColumn Title="Pytanie">
+                    <div class="ellipsis">@context.Question</div>
+                </TemplateColumn>
+                <TemplateColumn Title="Odpowiedź">
+                    <div class="ellipsis">@context.FinalAnswer</div>
+                </TemplateColumn>
+                <TemplateColumn Title="Liczba iteracji">
+                    <IterationBadge Count="context.IterationCount" />
+                </TemplateColumn>
+            </QuickGrid>
+        </div>
+    }
+</div>
+
+@code {
+    private IReadOnlyList<ChatInteraction>? _items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _items = await History.ListNewestFirstAsync();
+    }
+}

@@ -1,0 +1,99 @@
+@page "/logowanie"
+@inject IAuthService Auth
+@inject NavigationManager Nav
+
+@* Static-SSR component: the form does a real HTTP POST so SignInManager can set the
+   auth cookie. No scaffolded Identity UI is used. *@
+
+<PageTitle>Zaloguj się — PetWorld</PageTitle>
+
+<div class="page">
+    <div class="auth-wrap">
+        <div class="card auth-card">
+            <h1 class="headline-lg mb-md">Zaloguj się</h1>
+
+            @if (_error is not null)
+            {
+                <div class="form-error-box mb-md">@_error</div>
+            }
+
+            <EditForm Model="Input" FormName="login" OnValidSubmit="HandleLoginAsync" method="post">
+                <DataAnnotationsValidator />
+
+                <div class="field">
+                    <label for="email">Adres e-mail</label>
+                    <InputText id="email" class="input" @bind-Value="Input.Email" autocomplete="username" />
+                    <ValidationMessage For="() => Input.Email" class="field-error" />
+                </div>
+
+                <div class="field">
+                    <label for="password">Hasło</label>
+                    <InputText id="password" type="password" class="input" @bind-Value="Input.Password" autocomplete="current-password" />
+                    <ValidationMessage For="() => Input.Password" class="field-error" />
+                </div>
+
+                <label class="checkbox-row">
+                    <InputCheckbox @bind-Value="Input.RememberMe" /> Zapamiętaj mnie
+                </label>
+
+                <button type="submit" class="btn btn--primary btn--block btn--lg mt-md">Zaloguj się</button>
+            </EditForm>
+
+            <p class="auth-switch">Nie masz konta? <a href="/rejestracja">Załóż konto</a></p>
+        </div>
+
+        <div class="auth-aside">
+            <Icon Name="paw" Size="56" />
+            <h2 class="headline-lg">Witaj ponownie w PetWorld</h2>
+            <p>Zaloguj się, aby zarządzać kontem, koszykiem i historią rozmów z naszym doradcą.</p>
+        </div>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private LoginInput Input { get; set; } = default!;
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    private string? _error;
+
+    protected override void OnInitialized() => Input ??= new();
+
+    private async Task HandleLoginAsync()
+    {
+        var result = await Auth.LoginAsync(Input.Email, Input.Password, Input.RememberMe);
+        if (result.Succeeded)
+        {
+            Nav.NavigateTo(SafeReturnUrl());
+        }
+        else
+        {
+            _error = result.Error;
+        }
+    }
+
+    private string SafeReturnUrl()
+    {
+        if (string.IsNullOrWhiteSpace(ReturnUrl))
+        {
+            return "/";
+        }
+
+        // Only allow app-local paths (no open redirects).
+        return ReturnUrl.StartsWith('/') ? ReturnUrl : "/" + ReturnUrl;
+    }
+
+    private sealed class LoginInput
+    {
+        [Required(ErrorMessage = "Podaj adres e-mail.")]
+        [EmailAddress(ErrorMessage = "Nieprawidłowy adres e-mail.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Podaj hasło.")]
+        public string Password { get; set; } = string.Empty;
+
+        public bool RememberMe { get; set; }
+    }
+}
